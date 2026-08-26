@@ -7,9 +7,6 @@ import { COMMUNITY_LINKS } from './config/community.js';
 
 export function initFloatingCommunityWidget() {
   if (typeof document === 'undefined') return;
-  if (window.location.pathname.toLowerCase().includes('trading') || document.body.classList.contains('trading-page')) {
-    return;
-  }
 
   if (document.getElementById('floatingCommunityWidget')) {
     return;
