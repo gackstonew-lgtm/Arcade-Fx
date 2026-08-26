@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Live Multi-Asset Signal Grid | In Partnership with Affiniti Group Kenya</title>
+
+  <!-- Inject Server-Side PHP Runtime Configuration -->
+  <script>
+    window.ARCADEFX_PHP_CONFIG = {
+      "backend": "JS/Netlify",
+      "version": "8.2.0",
+      "dbConnected": true,
+      "dbDriver": "sqlite",
+      "symbolCount": 12,
+      "serverTime": "2026-08-22T16:56:36.394Z",
+      "apiBaseUrl": "/api"
+    };
+  </script>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d1f">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+        <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item active" data-page="signals" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace-container" style="display: flex; flex-direction: column;">
+      
+      <!-- Top Market Scan Status Area (Reference Visual Target) -->
+      <div class="scan-header-bar">
+        <div class="scan-status-dot">
+          <span class="dot"></span>
+          <span>Last scan: <strong class="last-scan-status" style="color: var(--text-primary);">just now</strong></span>
+        </div>
+
+        <button id="rescanMarketBtn" class="btn-rescan-market" type="button" title="Execute full market scan and update all signals">
+          <span class="rescan-icon">↻</span>
+          <span class="rescan-title">Rescan Market</span>
+        </button>
+
+        <div class="scan-countdown">
+          <span>⏱️ Next auto-scan in:</span>
+          <span id="scanCountdownTimer" class="scan-countdown-val">00:05:00</span>
+        </div>
+      </div>
+
+      <!-- Page Title & Methodology Description -->
+      <div class="signals-page-title-row">
+        <div>
+          <h2 class="signals-page-title">Live Signal Grid</h2>
+          <p class="signals-page-subtitle">
+            Each card's swing high/low, entry, stop-loss and targets are computed from real market data: ECB daily reference rates for FX majors and GoldAPI for precious metals. See methodology for exact sources and limits.
+          </p>
+        </div>
+        <div class="signals-page-meta">
+          <div>Last updated: <strong class="last-updated-time" style="color: var(--text-primary);">07:46:08 UTC (36s ago)</strong></div>
+          <div style="margin-top: 4px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #3dd79a; display: inline-block;"></span>
+            <span>Last scan: <strong class="last-scan-status" style="color: var(--text-primary);">just now</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signal Grid Filter & Sort Controls Bar -->
+      <div class="signals-control-bar">
+        <div class="filter-pills-group">
+          <button class="filter-pill active" data-filter="asset" data-value="ALL" type="button">All pairs</button>
+          <button class="filter-pill" data-filter="best" data-value="BEST" type="button">Best only</button>
+          <button class="filter-pill" data-filter="direction" data-value="BUY" type="button">Buy side</button>
+          <button class="filter-pill" data-filter="direction" data-value="SELL" type="button">Sell side</button>
+          <button class="filter-pill" data-filter="asset" data-value="FOREX" type="button">Forex</button>
+          <button class="filter-pill" data-filter="asset" data-value="METALS" type="button">Metals</button>
+          <button class="filter-pill" data-filter="asset" data-value="CRYPTO" type="button">Crypto</button>
+        </div>
+
+        <div class="sort-controls-group">
+          <button id="sortConfidenceBtn" class="sort-pill active" type="button">Sort: Confidence</button>
+          <button id="sortPairBtn" class="sort-pill" type="button">Sort: Pair</button>
+        </div>
+      </div>
+
+      <!-- Live Signal Cards Grid (3 Columns on Desktop) -->
+      <div id="signalsGridContainer" class="signals-grid-v2">
+        <!-- Rendered dynamically by SignalsController -->
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="index.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zm0 10h8v8h-8v-8zM3 13h8v8H3v-8z"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="signals.html" class="mobile-nav-item active" aria-current="page">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      <span>Signals</span>
+    </a>
+    <a href="markets.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+      <span>Market</span>
+    </a>
+    <a href="news.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 4h16v2H4zm0 4h16v6H4zm8 1a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <span>News</span>
+    </a>
+    <a href="index.html?page=settings" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+
+  <!-- PAYHERO SUBSCRIPTION MODAL ($49/MONTH) -->
+  <div id="payheroSubModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card" style="max-width: 520px;">
+      <div class="arcadefx-modal-header">
+        <h3><span>⚡</span> ArcadeFX Professional Trading Intelligence</h3>
+        <button id="payheroSubModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body">
+        <div style="text-align: center; margin-bottom: 18px;">
+          <span class="pwa-badge" style="background: rgba(37, 99, 235, 0.2); color: #60A5FA; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11px; font-weight: 800;">
+            PRO TRADING INTELLIGENCE &bull; $49 / MONTH
+          </span>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            Unlimited access to real-time SMC signals, entry/SL/TP parameters, 5AM CRT sweeps, and market intelligence scores.
+          </p>
+        </div>
+
+        <!-- 2 Payment Method Cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+          <!-- Card 1: M-Pesa -->
+          <div id="payMethodMpesaCard" class="pdf-card active" style="padding: 14px; cursor: pointer; border: 2px solid #2563EB; background: rgba(37, 99, 235, 0.12); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">📲 M-PESA</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #10B981;">STK PUSH</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Pay securely using M-Pesa STK Push.</div>
+          </div>
+
+          <!-- Card 2: Card -->
+          <div id="payMethodCardPaymentCard" class="pdf-card" style="padding: 14px; cursor: pointer; border: 1px solid var(--border-card); background: var(--bg-card); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">💳 CARD PAYMENT</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #60A5FA;">VISA / MC</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Secure card payment via PayHero.</div>
+          </div>
+        </div>
+
+        <div id="payheroErrBox" class="arcadefx-error-box" style="display: none;"></div>
+        <div id="payheroStatusBox" class="arcadefx-status-box" style="display: none;">
+          <div id="payheroStatusMsg"></div>
+        </div>
+
+        <!-- M-Pesa Form View -->
+        <form id="payheroSubForm">
+          <input type="hidden" id="payheroPlanSelect" value="pro">
+          <div class="arcadefx-form-group">
+            <label for="payheroPhoneInput">M-PESA Phone Number</label>
+            <input id="payheroPhoneInput" type="tel" class="arcadefx-input" placeholder="0712345678 or 254712345678" required>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              An STK Push prompt will be sent directly to your phone.
+            </div>
+          </div>
+
+          <button id="btnSubmitPayheroSub" type="submit" class="arcadefx-btn-primary">
+            <span>Pay with M-PESA STK Push ($49)</span> <span>→</span>
+          </button>
+        </form>
+
+        <!-- Card Payment Form View -->
+        <form id="payheroCardForm" style="display: none;">
+          <div style="background: var(--bg-app); border: 1px solid var(--border-card); border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            🔒 <strong>PCI-DSS Compliant Payment Gateway</strong><br>
+            You will be redirected to the PayHero Card Checkout portal to complete your $49/month subscription using Visa or Mastercard.
+          </div>
+
+          <button id="btnSubmitPayheroCard" type="submit" class="arcadefx-btn-primary" style="background: linear-gradient(135deg, #1A73E8 0%, #1557B0 100%);">
+            <span>Pay $49 with Card</span> <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

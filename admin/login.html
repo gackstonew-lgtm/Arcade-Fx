@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcadeFX Live — Administrator Portal Login</title>
+  
+  <!-- Config script -->
+  <script>
+    const isSeparateAdminApp = typeof window !== 'undefined' && (window.location.hostname === 'admin.arcadefx.live' || window.location.hostname === 'adminarcadefx.netlify.app' || window.location.hostname.includes('admin'));
+    window.ARCADEFX_ADMIN_CONFIG = {
+      apiBaseUrl: isSeparateAdminApp ? 'https://arcadefx.live/api/admin' : '/api/admin',
+      supabaseUrl: window.ARCADEFX_ADMIN_CONFIG?.supabaseUrl || 'https://ykkzfnrndlatvpfsnurk.supabase.co',
+      supabaseAnonKey: window.ARCADEFX_ADMIN_CONFIG?.supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlra3pmbnJuZGxhdHZwZnNudXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NTMzNzUsImV4cCI6MjEwMjUyOTM3NX0.DPp9s3o1MQtGoVC52GR-woEJszvvRlQntz-6j7usBJw'
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-login-body">
+
+  <div class="admin-login-card">
+    <div class="admin-brand-header">
+      <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="admin-brand-logo">
+      <h1 class="admin-brand-title">ArcadeFX Live Control Center</h1>
+      <p class="admin-brand-subtitle">Administrator Portal & Security Gateway</p>
+    </div>
+
+    <div id="loginAlert" class="alert-banner alert-banner-error" style="display: none;"></div>
+
+    <form id="adminLoginForm">
+      <div class="form-group">
+        <label class="form-label" for="adminEmail">Administrator Email</label>
+        <input type="email" id="adminEmail" class="form-input" placeholder="admin@arcadefx.live" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="adminPassword">Security Password</label>
+        <input type="password" id="adminPassword" class="form-input" placeholder="••••••••••••" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" id="loginSubmitBtn" class="btn-primary" style="margin-top: 8px;">
+        Authenticate & Sign In
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; text-align: center; font-size: 11px; color: var(--text-muted);">
+      Protected Area • Authorized Administrator Access Only
+    </div>
+  </div>
+
+  <script type="module">
+    import { AdminApiClient } from './src/adminApi.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const alertEl = document.getElementById('loginAlert');
+      const formEl = document.getElementById('adminLoginForm');
+      const submitBtn = document.getElementById('loginSubmitBtn');
+
+      if (urlParams.get('expired') === '1') {
+        alertEl.textContent = 'Your administrator session expired. Please sign in again.';
+        alertEl.style.display = 'flex';
+      }
+
+      if (AdminApiClient.isAuthenticated()) {
+        const check = await AdminApiClient.fetchSettings();
+        if (check && check.success) {
+          window.location.href = 'index.html';
+          return;
+        }
+      }
+
+      formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertEl.style.display = 'none';
+
+        const email = document.getElementById('adminEmail').value.trim();
+        const password = document.getElementById('adminPassword').value;
+
+        if (!email || !password) {
+          alertEl.textContent = 'Please enter both your email and password.';
+          alertEl.style.display = 'flex';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Authenticating...';
+
+        try {
+          const res = await AdminApiClient.login(email, password);
+          if (res.success) {
+            window.location.href = 'index.html';
+          } else {
+            alertEl.textContent = res.error || 'Authentication failed. Verify credentials.';
+            alertEl.style.display = 'flex';
+          }
+        } catch (err) {
+          alertEl.textContent = err.message || 'Error communicating with authentication server.';
+          alertEl.style.display = 'flex';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Authenticate & Sign In';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

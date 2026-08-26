@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcadeFX Live — Administrator Dashboard</title>
+
+  <!-- Runtime Config -->
+  <script>
+    const isSeparateAdminApp = typeof window !== 'undefined' && (window.location.hostname === 'admin.arcadefx.live' || window.location.hostname === 'adminarcadefx.netlify.app' || window.location.hostname.includes('admin'));
+    window.ARCADEFX_ADMIN_CONFIG = {
+      apiBaseUrl: isSeparateAdminApp ? 'https://arcadefx.live/api/admin' : '/api/admin',
+      supabaseUrl: window.ARCADEFX_ADMIN_CONFIG?.supabaseUrl || 'https://ykkzfnrndlatvpfsnurk.supabase.co',
+      supabaseAnonKey: window.ARCADEFX_ADMIN_CONFIG?.supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlra3pmbnJuZGxhdHZwZnNudXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NTMzNzUsImV4cCI6MjEwMjUyOTM3NX0.DPp9s3o1MQtGoVC52GR-woEJszvvRlQntz-6j7usBJw'
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    
+    <!-- ADMIN RESPONSIVE SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div>
+        <div class="sidebar-header">
+          <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo">
+          <span class="sidebar-brand-name">ArcadeFX</span>
+          <span class="sidebar-badge">ADMIN</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#overview" class="nav-link active" data-view="overview">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Dashboard</span>
+          </a>
+          <a href="#users" class="nav-link" data-view="users">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Users</span>
+          </a>
+          <a href="#payments" class="nav-link" data-view="payments">
+            <span class="nav-icon">💳</span>
+            <span class="nav-text">Payments</span>
+          </a>
+          <a href="#subscriptions" class="nav-link" data-view="subscriptions">
+            <span class="nav-icon">⭐</span>
+            <span class="nav-text">Subscriptions</span>
+          </a>
+          <a href="#notifications" class="nav-link" data-view="notifications">
+            <span class="nav-icon">🔔</span>
+            <span class="nav-text">Notifications</span>
+          </a>
+          <a href="#emails" class="nav-link" data-view="emails">
+            <span class="nav-icon">✉️</span>
+            <span class="nav-text">Email Center</span>
+          </a>
+          <a href="#classes" class="nav-link" data-view="classes">
+            <span class="nav-icon">🎓</span>
+            <span class="nav-text">Live Classes</span>
+          </a>
+          <a href="#calendar" class="nav-link" data-view="calendar">
+            <span class="nav-icon">📅</span>
+            <span class="nav-text">Calendar</span>
+          </a>
+          <a href="#audit-logs" class="nav-link" data-view="audit-logs">
+            <span class="nav-icon">🛡️</span>
+            <span class="nav-text">Audit Logs</span>
+          </a>
+          <a href="#settings" class="nav-link" data-view="settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar" id="adminAvatar">AD</div>
+          <div class="admin-user-details">
+            <span class="admin-name" id="adminDisplayName">Administrator</span>
+            <span class="admin-role" id="adminRoleName">Super Admin</span>
+          </div>
+        </div>
+        <button id="adminLogoutBtn" class="btn-secondary" style="padding: 4px 8px; font-size: 11px;" title="Logout Admin Session">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="admin-main">
+      
+      <!-- TOP HEADER -->
+      <header class="admin-top-header">
+        <div class="header-title-wrap">
+          <h1 class="header-title" id="pageTitle">Dashboard Overview</h1>
+        </div>
+
+        <div class="header-actions">
+          <span id="liveStatusBadge" class="badge badge-active" style="display: flex; align-items: center; gap: 6px;">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+            LIVE INTELLIGENCE ONLINE
+          </span>
+          <button id="globalRefreshBtn" class="btn-secondary" style="display: flex; align-items: center; gap: 6px;">
+            <span>🔄</span> Refresh
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW CONTAINERS -->
+      <main class="admin-content">
+
+        <!-- 1. OVERVIEW DASHBOARD VIEW -->
+        <section id="view-overview" class="admin-view">
+          <div class="stats-grid" id="overviewStatsGrid">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <div class="table-card" style="padding: 24px;">
+            <div class="table-header-bar" style="margin-bottom: 16px;">
+              <h2 class="table-title">User Registration Trend</h2>
+              <span class="badge badge-active" style="font-size: 11px; padding: 4px 10px;">30-Day Activity</span>
+            </div>
+            <div id="registrationTrendContainer" style="position: relative; min-height: 260px; width: 100%;">
+              <!-- Rendered dynamically via interactive SVG chart -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. USER MANAGEMENT VIEW -->
+        <section id="view-users" class="admin-view" style="display: none;">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <h2 class="table-title">Registered Users Directory</h2>
+              <div class="table-controls">
+                <div class="search-input-wrap">
+                  <span class="search-icon">🔍</span>
+                  <input type="text" id="userSearchInput" class="search-input" placeholder="Search email or name...">
+                </div>
+                <select id="userStatusFilter" class="form-select" style="width: auto;">
+                  <option value="ALL">All Statuses</option>
+                  <option value="active">Active</option>
+                  <option value="suspended">Suspended</option>
+                  <option value="deactivated">Deactivated</option>
+                </select>
+                <select id="userPlanFilter" class="form-select" style="width: auto;">
+                  <option value="ALL">All Plans</option>
+                  <option value="Free">Free</option>
+                  <option value="Pro">Pro</option>
+                  <option value="VIP">VIP</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th>Verified</th>
+                    <th>Registered</th>
+                    <th>Last Activity</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-bar" id="usersPagination">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. PAYMENT MANAGEMENT VIEW -->
+        <section id="view-payments" class="admin-view" style="display: none;">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <h2 class="table-title">Financial Transactions Ledger</h2>
+              <div class="table-controls">
+                <div class="search-input-wrap">
+                  <span class="search-icon">🔍</span>
+                  <input type="text" id="paymentSearchInput" class="search-input" placeholder="Search reference or user...">
+                </div>
+                <select id="paymentStatusFilter" class="form-select" style="width: auto;">
+                  <option value="ALL">All Statuses</option>
+                  <option value="completed">Completed</option>
+                  <option value="pending">Pending</option>
+                  <option value="failed">Failed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Amount (USD)</th>
+                    <th>Amount (KES)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="paymentsTbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-bar" id="paymentsPagination">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. SUBSCRIPTION MANAGEMENT VIEW -->
+        <section id="view-subscriptions" class="admin-view" style="display: none;">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <h2 class="table-title">Active & Expired Subscriptions</h2>
+              <button class="btn-primary" style="width: auto; padding: 8px 16px;" id="grantSubBtn">+ Grant Subscription</button>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Plan Name</th>
+                    <th>Status</th>
+                    <th>Interval</th>
+                    <th>Price</th>
+                    <th>Start Date</th>
+                    <th>Expiration</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="subscriptionsTbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-bar" id="subscriptionsPagination">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. NOTIFICATION CENTER VIEW -->
+        <section id="view-notifications" class="admin-view" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Composer -->
+            <div class="table-card" style="padding: 24px;">
+              <h2 class="table-title" style="margin-bottom: 20px;">Broadcast Platform Notification</h2>
+              <form id="notificationForm">
+                <div class="form-group">
+                  <label class="form-label">Notification Title</label>
+                  <input type="text" id="notifTitle" class="form-input" placeholder="e.g. Weekly Market Outlook Live" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Target Audience</label>
+                  <select id="notifTarget" class="form-select">
+                    <option value="all">All Registered Users</option>
+                    <option value="subscribers">Active Subscribers Only</option>
+                    <option value="pro">Pro Plan Members</option>
+                    <option value="vip">VIP Members</option>
+                    <option value="expired">Expired Members</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Notification Type</label>
+                  <select id="notifType" class="form-select">
+                    <option value="info">Info (Blue)</option>
+                    <option value="success">Success (Green)</option>
+                    <option value="warning">Warning (Amber)</option>
+                    <option value="alert">Alert (Red)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Message Content</label>
+                  <textarea id="notifMessage" class="form-textarea" rows="4" placeholder="Enter broadcast text..." required></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Action URL (Optional)</label>
+                  <input type="text" id="notifActionUrl" class="form-input" placeholder="e.g. /smc.html">
+                </div>
+                <button type="submit" class="btn-primary">🚀 Send Notification Broadcast</button>
+              </form>
+            </div>
+
+            <!-- History -->
+            <div class="table-card">
+              <div class="table-header-bar">
+                <h2 class="table-title">Notification Logs</h2>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Audience</th>
+                      <th>Type</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="notificationsTbody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. EMAIL CENTER VIEW -->
+        <section id="view-emails" class="admin-view" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Composer -->
+            <div class="table-card" style="padding: 24px;">
+              <h2 class="table-title" style="margin-bottom: 20px;">Send Administrator Email</h2>
+              <form id="emailForm">
+                <div class="form-group">
+                  <label class="form-label">Recipient Email (or Broadcast)</label>
+                  <input type="email" id="emailRecipient" class="form-input" placeholder="user@arcadefx.live or all_subscribers@arcadefx.live" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Subject</label>
+                  <input type="text" id="emailSubject" class="form-input" placeholder="e.g. Important Account & Trading Update" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Message (HTML supported)</label>
+                  <textarea id="emailBody" class="form-textarea" rows="6" placeholder="Write your email body..." required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">✉️ Send Email</button>
+              </form>
+            </div>
+
+            <!-- History -->
+            <div class="table-card">
+              <div class="table-header-bar">
+                <h2 class="table-title">Email Dispatch History</h2>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Recipient</th>
+                      <th>Subject</th>
+                      <th>Status</th>
+                      <th>Sent At</th>
+                    </tr>
+                  </thead>
+                  <tbody id="emailsTbody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. LIVE CLASSES MANAGEMENT VIEW -->
+        <section id="view-classes" class="admin-view" style="display: none;">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <h2 class="table-title">Live Masterclasses & Webinars</h2>
+              <button class="btn-primary" style="width: auto; padding: 8px 16px;" id="createClassBtn">+ Create Live Class</button>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Class Title</th>
+                    <th>Instructor</th>
+                    <th>Start Time (UTC)</th>
+                    <th>End Time (UTC)</th>
+                    <th>Status</th>
+                    <th>Published</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="classesTbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. LIVE CLASS CALENDAR VIEW -->
+        <section id="view-calendar" class="admin-view" style="display: none;">
+          <div class="calendar-wrapper">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <h2 class="table-title" id="calendarMonthLabel">August 2026</h2>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-secondary" id="calPrevMonthBtn">‹ Prev</button>
+                <button class="btn-secondary" id="calTodayBtn">Today</button>
+                <button class="btn-secondary" id="calNextMonthBtn">Next ›</button>
+              </div>
+            </div>
+
+            <div class="calendar-grid">
+              <div class="calendar-day-header">Sun</div>
+              <div class="calendar-day-header">Mon</div>
+              <div class="calendar-day-header">Tue</div>
+              <div class="calendar-day-header">Wed</div>
+              <div class="calendar-day-header">Thu</div>
+              <div class="calendar-day-header">Fri</div>
+              <div class="calendar-day-header">Sat</div>
+            </div>
+            <div class="calendar-grid" id="calendarDaysGrid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. AUDIT LOGS VIEW -->
+        <section id="view-audit-logs" class="admin-view" style="display: none;">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <h2 class="table-title">Administrator Security Audit Trail</h2>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Admin Email</th>
+                    <th>Action</th>
+                    <th>Target Type</th>
+                    <th>Target ID</th>
+                    <th>IP Address</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="auditLogsTbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination-bar" id="auditPagination">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. ADMIN SETTINGS VIEW -->
+        <section id="view-settings" class="admin-view" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div class="table-card" style="padding: 24px;">
+              <h2 class="table-title" style="margin-bottom: 20px;">Administrator Profile</h2>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="text" id="settingAdminEmail" class="form-input" readonly>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Assigned Role</label>
+                <input type="text" id="settingAdminRole" class="form-input" readonly>
+              </div>
+            </div>
+
+            <div class="table-card" style="padding: 24px;">
+              <h2 class="table-title" style="margin-bottom: 20px;">Platform System Status</h2>
+              <div id="systemConfigContainer" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODALS CONTAINER -->
+  <!-- User Action Modal -->
+  <div class="modal-overlay" id="modalUserAction">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="userActionModalTitle">User Administrative Action</h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModals()">&times;</button>
+      </div>
+      <form id="userActionForm">
+        <input type="hidden" id="actionUserId">
+        <div class="form-group">
+          <label class="form-label">Action Type</label>
+          <select id="userActionType" class="form-select">
+            <option value="activate">Activate Account</option>
+            <option value="suspend">Suspend Account</option>
+            <option value="deactivate">Deactivate Account</option>
+            <option value="update_role">Update Role (Admin / User)</option>
+            <option value="update_subscription">Update Subscription Plan</option>
+          </select>
+        </div>
+        <div class="form-group" id="roleSelectWrap" style="display: none;">
+          <label class="form-label">Select Role</label>
+          <select id="userRoleVal" class="form-select">
+            <option value="user">User</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </div>
+        <div class="form-group" id="subSelectWrap" style="display: none;">
+          <label class="form-label">Subscription Plan</label>
+          <select id="userPlanVal" class="form-select">
+            <option value="essential">Essential — $15/mo</option>
+            <option value="professional">Professional — $49/mo</option>
+            <option value="elite">Elite — $149/mo</option>
+            <option value="vip">VIP Lifetime</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top: 12px;">Confirm Action</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Live Class Form Modal -->
+  <div class="modal-overlay" id="modalClassForm">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="classModalTitle">Schedule Live Masterclass</h3>
+        <button class="modal-close-btn" onclick="window.adminApp.closeModals()">&times;</button>
+      </div>
+      <form id="classForm">
+        <input type="hidden" id="classId">
+        <div class="form-group">
+          <label class="form-label">Class Title</label>
+          <input type="text" id="classTitleInput" class="form-input" placeholder="e.g. SMC Liquidity Masterclass" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instructor Name</label>
+          <input type="text" id="classInstructorInput" class="form-input" value="Arcade FX Master Trader" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Start Time (UTC)</label>
+            <input type="datetime-local" id="classStartTime" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">End Time (UTC)</label>
+            <input type="datetime-local" id="classEndTime" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Meeting URL</label>
+          <input type="url" id="classMeetingUrl" class="form-input" placeholder="https://meet.google.com/xyz-abc">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Class Status</label>
+          <select id="classStatus" class="form-select">
+            <option value="scheduled">Scheduled</option>
+            <option value="live">Live Now</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top: 12px;">Save Live Class</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="src/adminApp.js"></script>
+</body>
+</html>

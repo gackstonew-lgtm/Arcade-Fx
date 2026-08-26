@@ -1,0 +1,18 @@
+/api/admin/*  /.netlify/functions/admin/:splat  200
+/api/admin    /.netlify/functions/admin        200
+/api/*        /.netlify/functions/api/:splat    200
+/api/:endpoint /.netlify/functions/api/:endpoint 200
+
+/             /landing.html  200
+/signals      /signals.html  200
+/alerts       /alerts.html   200
+/news         /news.html     200
+/markets      /markets.html  200
+/trading      /trading.html  200
+/smc          /smc.html      200
+/tools        /tools.html    200
+/landing      /landing.html  200
+/login        /login.html    200
+/register     /register.html 200
+/dashboard    /index.html    200
+/admin/*      /admin/index.html 200

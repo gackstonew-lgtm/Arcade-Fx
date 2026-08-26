@@ -1,0 +1,16 @@
+project_id = "arcade-fx"
+
+[functions.create-deposit]
+verify_jwt = true
+
+[functions.kora-webhook]
+verify_jwt = false
+
+[functions.verify-deposit]
+verify_jwt = true
+
+[functions.create-withdrawal]
+verify_jwt = true
+
+[functions.process-withdrawal]
+verify_jwt = false

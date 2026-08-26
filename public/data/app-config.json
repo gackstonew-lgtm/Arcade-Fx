@@ -1,0 +1,73 @@
+{
+  "app": {
+    "name": "Arcade FX",
+    "version": "2.1.0",
+    "environment": "production",
+    "apiBaseUrl": "/api",
+    "supportEmail": "support@arcadefx.live"
+  },
+  "features": {
+    "liveSignals": true,
+    "cryptoTrading": true,
+    "forexClasses": true,
+    "smcEngine": true,
+    "economicCalendar": true,
+    "riskCalculators": true,
+    "adminDashboard": true
+  },
+  "markets": {
+    "defaultSymbol": "EURUSD",
+    "defaultTimeframe": 15,
+    "refreshIntervalMs": 5000,
+    "supportedSymbols": [
+      { "code": "EURUSD", "name": "Euro / US Dollar", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "GBPUSD", "name": "British Pound / US Dollar", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "USDJPY", "name": "US Dollar / Japanese Yen", "pipSize": 0.01, "category": "Forex Majors" },
+      { "code": "USDCHF", "name": "US Dollar / Swiss Franc", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "USDCAD", "name": "US Dollar / Canadian Dollar", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "AUDUSD", "name": "Australian Dollar / US Dollar", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "NZDUSD", "name": "New Zealand Dollar / US Dollar", "pipSize": 0.0001, "category": "Forex Majors" },
+      { "code": "EURGBP", "name": "Euro / British Pound", "pipSize": 0.0001, "category": "Forex Crosses" },
+      { "code": "EURJPY", "name": "Euro / Japanese Yen", "pipSize": 0.01, "category": "Forex Crosses" },
+      { "code": "GBPJPY", "name": "British Pound / Japanese Yen", "pipSize": 0.01, "category": "Forex Crosses" },
+      { "code": "XAUUSD", "name": "Gold / US Dollar", "pipSize": 0.1, "category": "Metals" },
+      { "code": "XAGUSD", "name": "Silver / US Dollar", "pipSize": 0.01, "category": "Metals" }
+    ]
+  },
+  "navigation": [
+    { "label": "Dashboard", "path": "/dashboard", "icon": "LayoutDashboard" },
+    { "label": "Signals", "path": "/signals", "icon": "Zap" },
+    { "label": "Alerts", "path": "/alerts", "icon": "Bell" },
+    { "label": "News", "path": "/news", "icon": "Newspaper" },
+    { "label": "Markets", "path": "/markets", "icon": "TrendingUp" },
+    { "label": "Trading", "path": "/trading", "icon": "BarChart2" },
+    { "label": "SMC Analysis", "path": "/smc", "icon": "Cpu" },
+    { "label": "Tools", "path": "/tools", "icon": "Wrench" }
+  ],
+  "pricing": {
+    "tiers": [
+      {
+        "id": "starter",
+        "name": "Starter Trader",
+        "priceUsd": 29,
+        "billingCycle": "monthly",
+        "features": ["Live Forex Signals", "Standard Alerts", "Basic Economic Calendar"]
+      },
+      {
+        "id": "pro",
+        "name": "Pro SMC Trader",
+        "priceUsd": 79,
+        "billingCycle": "monthly",
+        "popular": true,
+        "features": ["A+ Confluence Signals", "Real-Time SMC Engine", "FVG & Liquidity Sweep Alerts", "Priority Support"]
+      },
+      {
+        "id": "institutional",
+        "name": "Institutional",
+        "priceUsd": 199,
+        "billingCycle": "monthly",
+        "features": ["Full API Access", "All Pro Features", "1-on-1 Mentorship Classes", "Unlimited Custom Alerts"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Chart Workspace | In Partnership with Affiniti Group Kenya</title>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d1f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--bg-app);
+    }
+    .chart-fullscreen-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .chart-top-bar {
+      height: 52px;
+      padding: 0 16px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body class="trading-page">
+
+  <div class="chart-fullscreen-container">
+    <!-- Top Chart Header Toolbar -->
+    <header class="chart-top-bar">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <a href="index.html" id="exitChartBtn" class="btn-header-action" title="Exit Chart Workspace" style="text-decoration: none; display: flex; align-items: center; gap: 6px;">
+          <span>←</span> <span>Exit Chart</span>
+        </a>
+        <button id="chartSaveBtn" class="btn-header-action" title="Save Chart Analysis & Preferences" style="display: flex; align-items: center; gap: 6px;">
+          <span>💾</span> <span id="saveBtnText">Save</span>
+        </button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <strong id="instSymbol" style="font-size: 15px; color: var(--text-dark);">EUR/USD</strong>
+          <span id="marketStatusBadge" class="market-status-badge">MARKET OPEN</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <!-- Symbol Selection -->
+        <select id="symbolSelect" style="background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;">
+          <option value="EURUSD" selected>EUR/USD</option>
+          <option value="GBPUSD">GBP/USD</option>
+          <option value="USDJPY">USD/JPY</option>
+          <option value="USDCHF">USD/CHF</option>
+          <option value="USDCAD">USD/CAD</option>
+          <option value="AUDUSD">AUD/USD</option>
+          <option value="NZDUSD">NZD/USD</option>
+          <option value="XAUUSD">XAU/USD (Gold)</option>
+          <option value="XAGUSD">XAG/USD (Silver)</option>
+          <option value="BTCUSD">BTC/USD (Bitcoin)</option>
+          <option value="ETHUSD">ETH/USD (Ethereum)</option>
+          <option value="DXY">DXY (US Dollar)</option>
+        </select>
+
+        <!-- Timeframe Controls -->
+        <div class="segmented-control">
+          <button class="seg-btn" data-tf="1M">1M</button>
+          <button class="seg-btn" data-tf="5M">5M</button>
+          <button class="seg-btn active" data-tf="15M">15M</button>
+          <button class="seg-btn" data-tf="1H">1H</button>
+          <button class="seg-btn" data-tf="4H">4H</button>
+          <button class="seg-btn" data-tf="1D">1D</button>
+        </div>
+
+        <!-- SIMULATED TRADING CONTROLS -->
+        <div style="display: flex; align-items: center; gap: 8px; background: rgba(15, 23, 42, 0.6); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-card);">
+          <span style="font-size: 10px; font-weight: 800; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">⚡ PAPER DEMO</span>
+          <span style="font-size: 12px; font-weight: 800; color: var(--text-dark);" id="simHeaderBalance">$10,000.00</span>
+          
+          <label style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-left: 4px;">
+            Lots: <input type="number" id="simLotInput" value="0.10" min="0.01" max="100" step="0.01" style="width: 54px; background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 2px 4px; border-radius: 4px; font-size: 12px; font-weight: 700;">
+          </label>
+
+          <button id="simBuyBtn" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #FFF; border: none; padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; transition: transform 0.15s ease;">BUY</button>
+          <button id="simSellBtn" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: #FFF; border: none; padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; transition: transform 0.15s ease;">SELL</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Container: 2-Column Desktop / Responsive Mobile -->
+    <main class="trading-workspace-main">
+      <!-- Left Column: TradingView Advanced Chart Viewport Container -->
+      <div class="chart-viewport-wrapper">
+        <div id="tradingview_chart_container"></div>
+      </div>
+
+      <!-- Right Column: Collapsible Simulated Positions & Trade History Panel -->
+      <aside id="simPositionsDrawer" class="sim-positions-panel" aria-label="Open Positions and Trade History">
+        <div class="positions-panel-header">
+          <div class="positions-tab-group">
+            <button id="tabOpenPosBtn" class="pos-tab-btn active">Positions (<span id="simOpenCount">0</span>)</button>
+            <button id="tabHistoryBtn" class="pos-tab-btn">History (<span id="simHistoryCount">0</span>)</button>
+          </div>
+          <button id="togglePositionsPanelBtn" class="positions-toggle-btn" aria-expanded="true" aria-controls="positionsPanelBody" aria-label="Collapse open trades and trading history panel" title="Collapse open trades and trading history panel">
+            <span id="togglePanelIcon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </span>
+          </button>
+          <div class="positions-panel-metrics">
+            <span>Eq: <strong id="simEquityDisplay" style="color: var(--text-dark);">$10,000.00</strong></span>
+            <span>P&L: <strong id="simPnlDisplay" style="color: #10B981;">+$0.00</strong></span>
+          </div>
+        </div>
+
+        <div id="positionsPanelBody" class="positions-panel-body">
+          <!-- Open Positions Tab View -->
+          <div id="openPosTabContent" style="flex: 1; overflow-y: auto; padding: 4px 8px;">
+            <table class="terminal-table">
+              <thead>
+                <tr>
+                  <th style="padding-left: 6px;">ID</th>
+                  <th>Symbol</th>
+                  <th>Side</th>
+                  <th class="num-col">Lots</th>
+                  <th class="num-col">Entry</th>
+                  <th class="num-col">Price</th>
+                  <th class="num-col">P&L</th>
+                  <th class="num-col" style="padding-right: 6px;">Act.</th>
+                </tr>
+              </thead>
+              <tbody id="simPositionsTbody">
+                <tr>
+                  <td colspan="8" style="text-align: center; padding: 28px 12px; color: var(--text-muted);">
+                    <div style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">No open positions</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Use BUY or SELL to open a paper trade.</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Trade History Tab View -->
+          <div id="historyTabContent" style="flex: 1; overflow-y: auto; padding: 4px 8px; display: none;">
+            <table class="terminal-table">
+              <thead>
+                <tr>
+                  <th style="padding-left: 6px;">Closed</th>
+                  <th>Symbol</th>
+                  <th>Side</th>
+                  <th class="num-col">Lots</th>
+                  <th class="num-col">Entry</th>
+                  <th class="num-col">Exit</th>
+                  <th class="num-col" style="padding-right: 6px;">P&L</th>
+                </tr>
+              </thead>
+              <tbody id="simHistoryTbody">
+                <tr>
+                  <td colspan="7" style="text-align: center; padding: 28px 12px; color: var(--text-muted);">
+                    <div style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">No trade history</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">Closed positions will record here.</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+  <script type="module">
+    import { simulatedTrading } from './src/simulatedTrading.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const symbolSelect = document.getElementById('symbolSelect');
+      const simLotInput = document.getElementById('simLotInput');
+      const simBuyBtn = document.getElementById('simBuyBtn');
+      const simSellBtn = document.getElementById('simSellBtn');
+
+      const simHeaderBalance = document.getElementById('simHeaderBalance');
+      const simEquityDisplay = document.getElementById('simEquityDisplay');
+      const simPnlDisplay = document.getElementById('simPnlDisplay');
+      const simOpenCount = document.getElementById('simOpenCount');
+      const simHistoryCount = document.getElementById('simHistoryCount');
+      const simPositionsTbody = document.getElementById('simPositionsTbody');
+      const simHistoryTbody = document.getElementById('simHistoryTbody');
+
+      const tabOpenPosBtn = document.getElementById('tabOpenPosBtn');
+      const tabHistoryBtn = document.getElementById('tabHistoryBtn');
+      const openPosTabContent = document.getElementById('openPosTabContent');
+      const historyTabContent = document.getElementById('historyTabContent');
+
+      const chartSaveBtn = document.getElementById('chartSaveBtn');
+      const saveBtnText = document.getElementById('saveBtnText');
+      const simPositionsDrawer = document.getElementById('simPositionsDrawer');
+      const togglePositionsPanelBtn = document.getElementById('togglePositionsPanelBtn');
+      const togglePanelIcon = document.getElementById('togglePanelIcon');
+
+      const ANALYSIS_SAVE_KEY = 'arcadefx_saved_chart_analysis';
+      const PANEL_STATE_KEY = 'arcadefx_positions_panel_collapsed';
+
+      const SVG_EXPAND = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+      const SVG_COLLAPSE = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>`;
+
+      // Toast Notification Helper
+      function showToast(msg) {
+        let toast = document.getElementById('tradingToast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.id = 'tradingToast';
+          toast.className = 'toast-notification';
+          document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
+      }
+
+      // Positions Panel Collapse / Expand Manager
+      function setPositionsPanelCollapsed(collapsed) {
+        if (!simPositionsDrawer || !togglePositionsPanelBtn) return;
+        if (collapsed) {
+          simPositionsDrawer.classList.add('collapsed');
+          togglePositionsPanelBtn.setAttribute('aria-expanded', 'false');
+          togglePositionsPanelBtn.setAttribute('aria-label', 'Expand open trades and trading history panel');
+          togglePositionsPanelBtn.setAttribute('title', 'Expand open trades and trading history panel');
+          if (togglePanelIcon) togglePanelIcon.innerHTML = SVG_EXPAND;
+        } else {
+          simPositionsDrawer.classList.remove('collapsed');
+          togglePositionsPanelBtn.setAttribute('aria-expanded', 'true');
+          togglePositionsPanelBtn.setAttribute('aria-label', 'Collapse open trades and trading history panel');
+          togglePositionsPanelBtn.setAttribute('title', 'Collapse open trades and trading history panel');
+          if (togglePanelIcon) togglePanelIcon.innerHTML = SVG_COLLAPSE;
+        }
+        sessionStorage.setItem(PANEL_STATE_KEY, String(collapsed));
+        window.dispatchEvent(new Event('resize'));
+      }
+
+      // Restore Panel Collapsed State from Session
+      const savedPanelState = sessionStorage.getItem(PANEL_STATE_KEY) === 'true';
+      if (savedPanelState) {
+        setPositionsPanelCollapsed(true);
+      }
+
+      if (togglePositionsPanelBtn) {
+        togglePositionsPanelBtn.addEventListener('click', () => {
+          const isCurrentlyCollapsed = simPositionsDrawer.classList.contains('collapsed');
+          setPositionsPanelCollapsed(!isCurrentlyCollapsed);
+        });
+      }
+
+      // Save Analysis Action Handler
+      if (chartSaveBtn) {
+        chartSaveBtn.addEventListener('click', () => {
+          try {
+            const activeTfBtn = document.querySelector('.segmented-control .seg-btn.active');
+            const analysisState = {
+              symbol: symbolSelect ? symbolSelect.value : 'EURUSD',
+              timeframe: activeTfBtn ? activeTfBtn.getAttribute('data-tf') : '15M',
+              savedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(ANALYSIS_SAVE_KEY, JSON.stringify(analysisState));
+
+            if (saveBtnText) saveBtnText.textContent = 'Saved! ✓';
+            chartSaveBtn.style.color = '#10B981';
+
+            showToast('Chart analysis state saved successfully!');
+
+            setTimeout(() => {
+              if (saveBtnText) saveBtnText.textContent = 'Save';
+              chartSaveBtn.style.color = '';
+            }, 2000);
+          } catch (e) {
+            console.error('Error saving chart analysis:', e);
+          }
+        });
+      }
+
+      // Restore Saved Analysis
+      function restoreSavedAnalysis() {
+        try {
+          const saved = localStorage.getItem(ANALYSIS_SAVE_KEY);
+          if (saved) {
+            const data = JSON.parse(saved);
+            if (data.symbol && symbolSelect) {
+              symbolSelect.value = data.symbol;
+              symbolSelect.dispatchEvent(new Event('change'));
+            }
+            if (data.timeframe) {
+              const targetBtn = document.querySelector(`.segmented-control .seg-btn[data-tf="${data.timeframe}"]`);
+              if (targetBtn) {
+                targetBtn.click();
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to restore saved chart analysis:', e);
+        }
+      }
+
+      setTimeout(restoreSavedAnalysis, 150);
+
+      // Tab Switchers
+      tabOpenPosBtn.addEventListener('click', () => {
+        tabOpenPosBtn.classList.add('active');
+        tabHistoryBtn.classList.remove('active');
+        openPosTabContent.style.display = 'block';
+        historyTabContent.style.display = 'none';
+      });
+
+      tabHistoryBtn.addEventListener('click', () => {
+        tabHistoryBtn.classList.add('active');
+        tabOpenPosBtn.classList.remove('active');
+        historyTabContent.style.display = 'block';
+        openPosTabContent.style.display = 'none';
+      });
+
+      // Render State Callback
+      function renderState(summary) {
+        if (simHeaderBalance) simHeaderBalance.textContent = `$${summary.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+        if (simEquityDisplay) simEquityDisplay.textContent = `$${summary.equity.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+        if (simPnlDisplay) {
+          const isPos = summary.unrealizedPnl >= 0;
+          simPnlDisplay.textContent = `${isPos ? '+' : ''}$${summary.unrealizedPnl.toFixed(2)}`;
+          simPnlDisplay.style.color = isPos ? '#10B981' : '#EF4444';
+        }
+
+        if (simOpenCount) simOpenCount.textContent = summary.positionsCount;
+        if (simHistoryCount) simHistoryCount.textContent = summary.history.length;
+
+        // Render Open Positions Table
+        if (simPositionsTbody) {
+          if (summary.positions.length === 0) {
+            simPositionsTbody.innerHTML = `
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 28px 12px; color: var(--text-muted);">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">No open positions</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Use BUY or SELL to open a paper trade.</div>
+                </td>
+              </tr>
+            `;
+          } else {
+            simPositionsTbody.innerHTML = summary.positions.map(p => {
+              const pnlVal = p.unrealizedPnl || 0;
+              const isProfit = pnlVal >= 0;
+              const dec = p.symbol.endsWith('JPY') ? 2 : (p.symbol === 'XAUUSD' ? 2 : 4);
+              return `
+                <tr>
+                  <td style="padding-left: 6px; font-size: 10px; color: var(--text-muted);">${p.id.replace('SIM-', '')}</td>
+                  <td><strong>${p.symbol}</strong></td>
+                  <td><span class="badge ${p.side === 'BUY' ? 'badge-active' : 'badge-suspended'}" style="font-size: 10px; padding: 1px 5px;">${p.side}</span></td>
+                  <td class="num-col">${p.lots}</td>
+                  <td class="num-col">${p.entryPrice.toFixed(dec)}</td>
+                  <td class="num-col">${p.currentPrice.toFixed(dec)}</td>
+                  <td class="num-col" style="font-weight: 800; color: ${isProfit ? '#10B981' : '#EF4444'};">${isProfit ? '+' : ''}$${pnlVal.toFixed(2)}</td>
+                  <td class="num-col" style="padding-right: 6px;">
+                    <button class="btn-secondary close-pos-btn" style="padding: 2px 8px; font-size: 10px; background: rgba(239,68,68,0.15); color: #EF4444; border-color: rgba(239,68,68,0.3); border-radius: 4px;" data-id="${p.id}">Close</button>
+                  </td>
+                </tr>
+              `;
+            }).join('');
+
+            simPositionsTbody.querySelectorAll('.close-pos-btn').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const posId = btn.getAttribute('data-id');
+                simulatedTrading.closePosition(posId);
+              });
+            });
+          }
+        }
+
+        // Render Trade History Table
+        if (simHistoryTbody) {
+          if (summary.history.length === 0) {
+            simHistoryTbody.innerHTML = `
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 28px 12px; color: var(--text-muted);">
+                  <div style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">No trade history</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Closed positions will record here.</div>
+                </td>
+              </tr>
+            `;
+          } else {
+            simHistoryTbody.innerHTML = summary.history.map(h => {
+              const isProfit = h.realizedPnl >= 0;
+              const dec = h.symbol.endsWith('JPY') ? 2 : (h.symbol === 'XAUUSD' ? 2 : 4);
+              return `
+                <tr>
+                  <td style="padding-left: 6px; font-size: 10px; color: var(--text-muted);">${new Date(h.closedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                  <td><strong>${h.symbol}</strong></td>
+                  <td><span class="badge ${h.side === 'BUY' ? 'badge-active' : 'badge-suspended'}" style="font-size: 10px; padding: 1px 5px;">${h.side}</span></td>
+                  <td class="num-col">${h.lots}</td>
+                  <td class="num-col">${h.entryPrice.toFixed(dec)}</td>
+                  <td class="num-col">${h.exitPrice.toFixed(dec)}</td>
+                  <td class="num-col" style="font-weight: 800; color: ${isProfit ? '#10B981' : '#EF4444'};">${isProfit ? '+' : ''}$${h.realizedPnl.toFixed(2)}</td>
+                </tr>
+              `;
+            }).join('');
+          }
+        }
+      }
+
+      simulatedTrading.subscribe(renderState);
+
+      // Execute Trade Buttons
+      if (simBuyBtn) {
+        simBuyBtn.addEventListener('click', () => {
+          const symbol = symbolSelect ? symbolSelect.value : 'EURUSD';
+          const lots = parseFloat(simLotInput.value) || 0.10;
+          simulatedTrading.executeTrade({ symbol, side: 'BUY', lots });
+        });
+      }
+
+      if (simSellBtn) {
+        simSellBtn.addEventListener('click', () => {
+          const symbol = symbolSelect ? symbolSelect.value : 'EURUSD';
+          const lots = parseFloat(simLotInput.value) || 0.10;
+          simulatedTrading.executeTrade({ symbol, side: 'SELL', lots });
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          window.location.href = 'index.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

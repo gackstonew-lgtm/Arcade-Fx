@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Alert Workspace | In Partnership with Affiniti Group Kenya</title>
+
+  <!-- Inject Server-Side PHP Runtime Configuration -->
+  <script>
+    window.ARCADEFX_PHP_CONFIG = {
+      "backend": "JS/Netlify",
+      "version": "8.2.0",
+      "dbConnected": true,
+      "dbDriver": "sqlite",
+      "symbolCount": 12,
+      "serverTime": "2026-08-22T16:56:36.400Z",
+      "apiBaseUrl": "/api"
+    };
+  </script>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d1f">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+        <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      </div>
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item active" data-page="alerts" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace-container" style="display: flex; flex-direction: column; gap: 20px;">
+      <!-- Alert Creator Form Card -->
+      <div class="card" style="padding: 24px; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 20px;">
+        <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 14px;">🔔 Create New Market Alert</h2>
+        
+        <form id="createAlertForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+          <div>
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Symbol</label>
+            <select id="alertSymbol" style="width: 100%; background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 10px; border-radius: 8px;">
+              <option value="EURUSD">EUR/USD</option>
+              <option value="XAUUSD">XAU/USD (Gold)</option>
+              <option value="GBPUSD">GBP/USD</option>
+              <option value="BTCUSD">BTC/USD</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Alert Condition</label>
+            <select id="alertCondition" style="width: 100%; background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 10px; border-radius: 8px;">
+              <option value="CRT_SWEEP">5AM CRT Range Sweep</option>
+              <option value="FVG_ACTIVE">1H Fair Value Gap (FVG)</option>
+              <option value="OB_TOUCH">1H Order Block Touch</option>
+              <option value="PRICE_TARGET">Custom Price Level</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Target Level / Price</label>
+            <input type="text" id="alertPrice" placeholder="e.g. 1.08500" style="width: 100%; background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 10px; border-radius: 8px;">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Notification Preference</label>
+            <select id="alertChannel" style="width: 100%; background: var(--bg-app); color: var(--text-dark); border: 1px solid var(--border-card); padding: 10px; border-radius: 8px;">
+              <option value="AUDIO_TOAST">Audio Chime + Popover Toast</option>
+              <option value="TRADINGVIEW_PROFILE">TradingView Strategy Profile Trigger</option>
+            </select>
+          </div>
+
+          <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 8px;">
+            <button type="submit" class="btn-promo" style="padding: 10px 24px; font-size: 13px;">➕ Create Alert</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Active Alerts List -->
+      <div class="card" style="padding: 24px; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 20px;">
+        <h2 style="font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 14px;">📋 Active Configured Alerts</h2>
+        <div id="activeAlertsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(9, 13, 31, 0.7); border-radius: 10px; border: 1px solid var(--border-subtle);">
+            <div>
+              <strong style="color: var(--text-dark);">EUR/USD &bull; 5AM CRT Range Sweep</strong>
+              <span style="font-size: 11px; color: var(--text-muted); display: block;">Target: 1.0830 | Channel: Audio Chime + Toast</span>
+            </div>
+            <span class="pwa-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">ACTIVE</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(9, 13, 31, 0.7); border-radius: 10px; border: 1px solid var(--border-subtle);">
+            <div>
+              <strong style="color: var(--text-dark);">XAU/USD &bull; 1H Order Block Touch</strong>
+              <span style="font-size: 11px; color: var(--text-muted); display: block;">Target: 2345.50 | Channel: TradingView Strategy Profile</span>
+            </div>
+            <span class="pwa-badge" style="background: rgba(16,185,129,0.15); color: #6ee7b7;">ACTIVE</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

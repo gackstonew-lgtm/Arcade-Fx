@@ -1,0 +1,181 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  PNPM_FLAGS = "--no-frozen-lockfile"
+  NETLIFY_DRAWERS_DISABLED = "true"
+  NETLIFY_DISABLE_NETLIFY_DRAWER = "true"
+  NETLIFY_ENABLE_COLLABORATIVE_UI = "false"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/admin/*"
+  to = "/.netlify/functions/admin/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin"
+  to = "/.netlify/functions/admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/:endpoint"
+  to = "/.netlify/functions/api/:endpoint"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/landing.html"
+  status = 200
+
+# Clean extensionless route rewrites
+[[redirects]]
+  from = "/signals"
+  to = "/signals.html"
+  status = 200
+
+[[redirects]]
+  from = "/alerts"
+  to = "/alerts.html"
+  status = 200
+
+[[redirects]]
+  from = "/news"
+  to = "/news.html"
+  status = 200
+
+[[redirects]]
+  from = "/markets"
+  to = "/markets.html"
+  status = 200
+
+[[redirects]]
+  from = "/trading"
+  to = "/trading.html"
+  status = 200
+
+[[redirects]]
+  from = "/smc"
+  to = "/smc.html"
+  status = 200
+
+[[redirects]]
+  from = "/tools"
+  to = "/tools.html"
+  status = 200
+
+[[redirects]]
+  from = "/landing"
+  to = "/landing.html"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/register"
+  to = "/register.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/index.html"
+  status = 200
+
+# Retain existing PHP URLs while serving generated static HTML.
+[[redirects]]
+  from = "/index.php"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/landing.php"
+  to = "/landing.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/login.php"
+  to = "/login.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register.php"
+  to = "/register.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/dashboard.php"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/markets.php"
+  to = "/markets.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/trading.php"
+  to = "/trading.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/smc.php"
+  to = "/smc.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/signals.php"
+  to = "/signals.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/alerts.php"
+  to = "/alerts.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/news.php"
+  to = "/news.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/tools.php"
+  to = "/tools.html"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-Netlify-Disable-Collaborative-UI = "true"

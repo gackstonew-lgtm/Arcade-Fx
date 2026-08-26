@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Cygre', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+
+  :root {
+    /* Centralized ArcadeFX Design System Tokens */
+    --arcade-persian-blue: #0038BC;
+    --arcade-platinum: #EEEEEE;
+    --arcade-powder-blue: #D0E6FD;
+    --arcade-persian-blue-hover: #002e9c;
+    --arcade-persian-blue-soft: rgba(0, 56, 188, 0.10);
+    --arcade-powder-blue-soft: rgba(208, 230, 253, 0.20);
+
+    /* Semantic Token Mapping (Preserving Light Canvas #F5F5F7 & Surface #FFFFFF) */
+    --bg-canvas: #F5F5F7;
+    --surface-primary: #FFFFFF;
+    --surface-secondary: #F0F0F3;
+    --surface-elevated: #FFFFFF;
+    --text-primary: #111111;
+    --text-secondary: #555560;
+    --text-tertiary: #98989F;
+    --divider-subtle: rgba(0, 56, 188, 0.08);
+    --brand-navy: var(--arcade-persian-blue);
+    --accent-gold: #C9A55A;
+    --status-success: #20C997;
+    --status-warning: #FFB020;
+    --status-danger: #FF453A;
+
+    --color-primary-accent: var(--arcade-persian-blue);
+    --color-card-border-accent: rgba(0, 56, 188, 0.12);
+    --color-badge-info-bg: rgba(208, 230, 253, 0.40);
+    --color-badge-info-text: var(--arcade-persian-blue);
+    
+    /* Tailwind semantic variables */
+    --background: 240 5% 96%;
+    --foreground: 0 0% 7%;
+    --primary: 222 100% 37%;
+    --primary-foreground: 0 0% 100%;
+    --surface: 0 0% 100%;
+    --border: 240 4% 90%;
+  }
+
+  .dark {
+    /* Dark Mode (Preserving Obsidian Canvas #08090B & Dark Surface #111214) */
+    --bg-canvas: #08090B;
+    --surface-primary: #111214;
+    --surface-secondary: #18191D;
+    --surface-elevated: #1E1F24;
+    --text-primary: var(--arcade-platinum);
+    --text-secondary: var(--arcade-powder-blue);
+    --text-tertiary: #7D8EAA;
+    --divider-subtle: rgba(208, 230, 253, 0.12);
+    --brand-navy: var(--arcade-persian-blue);
+    --accent-gold: #C9A55A;
+    --status-success: #20C997;
+    --status-warning: #FFB020;
+    --status-danger: #FF453A;
+
+    --color-primary-accent: var(--arcade-persian-blue);
+    --color-card-border-accent: rgba(208, 230, 253, 0.18);
+    --color-badge-info-bg: rgba(0, 56, 188, 0.30);
+    --color-badge-info-text: var(--arcade-powder-blue);
+
+    /* Tailwind semantic variables */
+    --background: 220 18% 4%;
+    --foreground: 0 0% 93%;
+    --primary: 222 100% 37%;
+    --primary-foreground: 0 0% 100%;
+    --surface: 220 7% 7%;
+    --border: 220 8% 16%;
+  }
+
+  body {
+    font-family: 'SF Pro Text', 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+    background-color: var(--bg-canvas);
+    font-weight: 400;
+    transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  /* Tabular numbers for financial dominance */
+  .tabular-nums, .financial-value {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.03em;
+  }
+}
+
+@layer utilities {
+  /* Phantom iOS Surface (Soft elevated rounded container) */
+  .ios-surface {
+    background-color: var(--surface-primary);
+    border: 1px solid var(--divider-subtle);
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ios-surface-secondary {
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--divider-subtle);
+    border-radius: 20px;
+  }
+
+  /* iOS Frosted Glass Overlay Header / Nav */
+  .ios-glass {
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .ios-glass {
+    background-color: rgba(17, 18, 20, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Tactile Native iOS Button (Active downscale 1.0 -> 0.97 -> 1.0) */
+  .ios-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 18px;
+    min-height: 44px;
+    padding: 0 18px;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ios-btn:active {
+    transform: scale(0.96);
+    opacity: 0.92;
+  }
+
+  .ios-btn-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-canvas);
+  }
+
+  .ios-btn-secondary {
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+  }
+
+  .ios-btn-accent {
+    background-color: var(--brand-navy);
+    color: #FFFFFF;
+  }
+
+  /* Native iOS Slide-Up Bottom Sheet Handle */
+  .ios-sheet-handle {
+    width: 36px;
+    height: 5px;
+    background-color: var(--text-tertiary);
+    opacity: 0.4;
+    border-radius: 3px;
+    margin: 8px auto 16px auto;
+  }
+
+  /* Classic Neumorphism compatibility wrappers */
+  .neu-flat {
+    background-color: var(--surface-primary);
+    border: 1px solid var(--divider-subtle);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border-radius: 24px;
+  }
+
+  .neu-inset {
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--divider-subtle);
+    border-radius: 18px;
+  }
+
+  .neu-glass {
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--divider-subtle);
+  }
+
+  .dark .neu-glass {
+    background-color: rgba(17, 18, 20, 0.80);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .neu-btn {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .neu-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Scrollbar hiding */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+

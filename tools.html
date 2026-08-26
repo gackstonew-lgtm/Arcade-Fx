@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Arcade FX — Trading Tools | In Partnership with Affiniti Group Kenya</title><link rel="stylesheet" href="css/styles.css"></head>
+<body>
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+        <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item active" data-page="tools" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="workspace-container">
+      <section class="tools-grid">
+        
+        <!-- 1. Pip Value Calculator -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v18h18V3zM9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+              </div>
+              <div class="tool-title">PIP VALUE CALCULATOR</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>Pair
+                <select id="pipSymbol">
+                  <option value="EURUSD">EUR/USD</option>
+                  <option value="GBPUSD">GBP/USD</option>
+                  <option value="USDJPY">USD/JPY</option>
+                  <option value="XAUUSD">XAU/USD (Gold)</option>
+                  <option value="BTCUSD">BTC/USD (Bitcoin)</option>
+                </select>
+              </label>
+              <label>Lot size
+                <input id="pipLots" type="number" min="0.01" step="0.01" value="1.00">
+              </label>
+              <label>Account currency
+                <select id="pipCurrency">
+                  <option value="USD">USD ($)</option>
+                </select>
+              </label>
+            </div>
+            <button id="btnCalcPip" class="btn-primary" type="button">
+              <span>⚡ Calculate Pip Value</span>
+            </button>
+          </div>
+          <div id="pipResult" class="tool-result">Click Calculate to compute pip value.</div>
+        </article>
+
+        <!-- 2. Risk-To-Reward Calculator -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div class="tool-title">RISK-TO-REWARD CALCULATOR</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>Direction
+                <select id="rrDirection">
+                  <option value="BUY">BUY / LONG</option>
+                  <option value="SELL">SELL / SHORT</option>
+                </select>
+              </label>
+              <label>Entry Price
+                <input id="rrEntry" type="number" step="any" value="1.0850">
+              </label>
+              <label>Stop Loss
+                <input id="rrStop" type="number" step="any" value="1.0820">
+              </label>
+              <label>Take Profit
+                <input id="rrTarget" type="number" step="any" value="1.0940">
+              </label>
+            </div>
+            <button id="btnCalcRR" class="btn-primary" type="button">
+              <span>🎯 Calculate R:R Ratio</span>
+            </button>
+          </div>
+          <div id="rrResult" class="tool-result">Click Calculate to compute R:R ratio.</div>
+        </article>
+
+        <!-- 3. Position Size Calculator -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></svg>
+              </div>
+              <div class="tool-title">POSITION SIZE CALCULATOR</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>Account Balance ($)
+                <input id="positionBalance" type="number" min="0" value="10000">
+              </label>
+              <label>Risk Percentage (%)
+                <input id="positionRisk" type="number" min="0.01" max="100" step="0.01" value="1.00">
+              </label>
+              <label>Entry Price
+                <input id="positionEntry" type="number" step="any" value="1.0850">
+              </label>
+              <label>Stop Loss Price
+                <input id="positionStop" type="number" step="any" value="1.0820">
+              </label>
+            </div>
+            <button id="btnCalcPosition" class="btn-primary" type="button">
+              <span>📐 Calculate Position Size</span>
+            </button>
+          </div>
+          <div id="positionResult" class="tool-result">Click Calculate to compute lot size.</div>
+        </article>
+
+        <!-- 4. Profit / Loss Calculator -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="tool-title">PROFIT / LOSS CALCULATOR</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>Direction
+                <select id="profitSide">
+                  <option value="BUY">BUY / LONG</option>
+                  <option value="SELL">SELL / SHORT</option>
+                </select>
+              </label>
+              <label>Lot Size
+                <input id="profitLots" type="number" min="0.01" step="0.01" value="1.00">
+              </label>
+              <label>Open Price
+                <input id="profitOpen" type="number" step="any" value="1.0850">
+              </label>
+              <label>Close Price
+                <input id="profitClose" type="number" step="any" value="1.0920">
+              </label>
+            </div>
+            <button id="btnCalcProfit" class="btn-primary" type="button">
+              <span>💰 Calculate Profit/Loss</span>
+            </button>
+          </div>
+          <div id="profitResult" class="tool-result">Click Calculate to compute net P&L.</div>
+        </article>
+
+        <!-- 5. Required Margin Calculator -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h18"/></svg>
+              </div>
+              <div class="tool-title">REQUIRED MARGIN CALCULATOR</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>Account Leverage
+                <select id="marginLeverage">
+                  <option value="100">1:100</option>
+                  <option value="200" selected>1:200</option>
+                  <option value="500">1:500</option>
+                  <option value="1000">1:1000</option>
+                </select>
+              </label>
+              <label>Trade Size (Lots)
+                <input id="marginLots" type="number" min="0.01" step="0.01" value="1.00">
+              </label>
+              <label>Market Price ($)
+                <input id="marginPrice" type="number" step="any" value="1.0850">
+              </label>
+            </div>
+            <button id="btnCalcMargin" class="btn-primary" type="button">
+              <span>⚖️ Calculate Required Margin</span>
+            </button>
+          </div>
+          <div id="marginResult" class="tool-result">Click Calculate to compute margin required.</div>
+        </article>
+
+        <!-- 6. Currency Converter -->
+        <article class="card tool-card">
+          <div>
+            <div class="tool-header">
+              <div class="tool-icon-badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10h14l-4-4"/><path d="M17 14H3l4 4"/></svg>
+              </div>
+              <div class="tool-title">CURRENCY CONVERTER</div>
+            </div>
+            <div class="tool-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <label>From Currency
+                <select id="convertFrom">
+                  <option value="EUR">EUR (€)</option>
+                  <option value="USD" selected>USD ($)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="KES">KES (KSh)</option>
+                </select>
+              </label>
+              <label>To Currency
+                <select id="convertTo">
+                  <option value="KES" selected>KES (KSh)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                </select>
+              </label>
+              <label>Amount
+                <input id="convertAmount" type="number" min="0.01" step="any" value="100.00">
+              </label>
+            </div>
+            <button id="btnCalcConvert" class="btn-primary" type="button">
+              <span>💱 Calculate Currency Conversion</span>
+            </button>
+          </div>
+          <div id="convertResult" class="tool-result">Click Calculate to estimate converted value.</div>
+        </article>
+
+      </section>
+    </main>
+  </div>
+  <script type="module" src="src/tools.js"></script>
+</body>
+</html>

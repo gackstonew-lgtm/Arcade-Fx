@@ -1,0 +1,68 @@
+{
+  "name": "Arcade FX — Professional Forex SMC Dashboard",
+  "short_name": "Arcade FX",
+  "description": "Institutional Forex SMC Trading Engine, Multi-Timeframe Analysis & 5AM CRT Signal Center.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#090D16",
+  "theme_color": "#0F172A",
+  "categories": ["finance", "trading", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Trading Terminal",
+      "short_name": "Terminal",
+      "description": "Open live Arcade FX Trading Terminal",
+      "url": "./index.html?page=dashboard",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Trading Chart",
+      "short_name": "Chart",
+      "description": "Open live SMC Trading Chart",
+      "url": "./index.html?page=chart",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Live Signals",
+      "short_name": "Signals",
+      "description": "Open SMC Signals Grid",
+      "url": "./signals.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Public Landing",
+      "short_name": "Home",
+      "description": "Open Arcade FX Landing Page",
+      "url": "./landing.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

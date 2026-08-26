@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Forex Classes & Live Masterclasses | In Partnership with Affiniti Group Kenya</title>
+
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d1f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Arcade FX">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- Main Application Layout Shell -->
+    <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item active" data-page="classes" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="live-badge" title="Forex Classes & Google Meet Live Session Hub">
+          <span class="live-dot"></span>
+          <span>LIVE MASTERCLASS ONLINE</span>
+        </div>
+
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Classes Workspace Container -->
+    <main class="workspace-container" style="display: flex; flex-direction: column; gap: 24px;">
+
+      <!-- Compact Arcade Academy Learning Portal Bar -->
+      <div class="arcade-academy-compact-card" style="background: linear-gradient(135deg, rgba(0, 56, 188, 0.15) 0%, rgba(18, 97, 214, 0.08) 100%); border: 1px solid var(--border-card); border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--arcade-persian-blue); display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 18px; flex-shrink: 0;">
+            🎓
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-dark);">Arcade Academy Learning Portal</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Access institutional forex education, live market breakdowns, and SMC playbooks.</div>
+          </div>
+        </div>
+        <div>
+          <a href="https://learnforex23.wordpress.com/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background: linear-gradient(135deg, #0038BC 0%, #1261D6 100%); padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;" title="Open Arcade Academy Learning Platform">
+            <span>Arcade Academy</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Google Meet Session Interactive Widget Section -->
+      <section id="googleMeetWidget" class="google-meet-widget-card">
+        <div class="meet-status-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+              <span class="pwa-badge" style="background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 LIVE CLASS ACTIVE
+              </span>
+              <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">London & NY Session Overlap</span>
+            </div>
+            <h3 id="currentClassTopic" style="font-size: 20px; font-weight: 800; color: var(--text-dark); margin: 0 0 4px 0;">
+              Institutional SMC & 5AM CRT Live Execution Masterclass
+            </h3>
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Instructor: <strong style="color: var(--text-dark);" id="currentClassInstructor">Marcus Vance (Senior Macro Quant Analyst)</strong> &bull; Scheduled: <span id="currentClassTime">Today @ 14:00 UTC</span>
+            </div>
+          </div>
+
+          <div>
+            <a id="activeMeetLinkBtn" href="https://meet.google.com/abc-defg-hij" target="_blank" rel="noopener noreferrer" class="btn-join-meet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+              <span>Launch Google Meet Session →</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Google Meet Session Preview & Interactive Code Widget -->
+        <div style="background: var(--bg-app); border: 1px solid var(--border-card); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-card); padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: #1A73E8; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800;">
+                📹
+              </div>
+              <div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--text-dark);">Google Meet Link Code</div>
+                <div style="font-size: 12px; color: #3B82F6; font-family: monospace;" id="meetCodeDisplay">meet.google.com/abc-defg-hij</div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button id="copyMeetLinkBtn" class="btn-download-pdf" style="width: auto; padding: 8px 14px;">
+                <span>📋 Copy Meeting Link</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            <strong>Class Overview:</strong> In this live interactive session, we analyze live market liquidity sweeps on EURUSD, GBPUSD, and XAUUSD, evaluate 5AM UTC Candle Range Theory equilibrium boundaries, and review real-time Order Block & Fair Value Gap entries with zero repainting closed-candle logic.
+        </div>
+      </section>
+
+      <!-- Section Title for Educational PDF Resources -->
+      <div>
+        <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;">DOWNLOADABLE INSTITUTIONAL LIBRARY</div>
+        <h3 style="font-size: 20px; font-weight: 800; color: var(--text-dark); margin: 4px 0 0 0;">Institutional Forex PDF Resources & Playbooks</h3>
+        <p style="font-size: 13px; color: #60A5FA; margin-top: 6px; font-weight: 600;">
+          <strong>Forex Class PDFs:</strong> Download individual course PDFs for <strong>$3.86 each</strong> (Included free with Elite $149/mo membership).
+        </p>
+      </div>
+
+      <!-- PDF Download Resources Grid -->
+      <section class="pdf-resources-grid">
+
+        <!-- PDF Card 1 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(212, 175, 55, 0.2); color: #D4AF37; border: 1px solid rgba(212, 175, 55, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 48 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              5AM Candle Range Theory (CRT) Execution Playbook
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Detailed breakdown of the 5AM UTC 4-Hour Candle Range equilibrium bounds, liquidity sweeps above PDH/PDL, and session timing rules.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_5AM_CRT_Execution_Playbook.pdf', '5AM Candle Range Theory (CRT) Execution Playbook')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+        <!-- PDF Card 2 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(37, 99, 235, 0.2); color: #60A5FA; border: 1px solid rgba(56, 189, 248, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 36 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              Smart Money Concepts (SMC) Order Block Manual
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Comprehensive guide to mapping institutional order blocks, mitigation zones, fair value gaps (FVG), and liquidity sweeps.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_SMC_Order_Block_Manual.pdf', 'Smart Money Concepts (SMC) Order Block Manual')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+        <!-- PDF Card 3 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 24 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              Institutional Risk Management & Position Sizing
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Strict 1% account risk allocation rules, lot sizing formulas, stop-loss placement, and multi-target Risk-to-Reward (R:R >= 1:2.5) strategies.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_Risk_Management_Position_Sizing.pdf', 'Institutional Risk Management & Position Sizing')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+        <!-- PDF Card 4 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(245, 158, 11, 0.2); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 30 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              Pearson DXY Rolling Correlation Matrix
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Mathematical framework on rolling 20-period Pearson correlation coefficients against the US Dollar Index (DXY) to confirm macro direction.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_Pearson_DXY_Correlation_Matrix.pdf', 'Pearson DXY Rolling Correlation Matrix')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+        <!-- PDF Card 5 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(139, 92, 246, 0.2); color: #A78BFA; border: 1px solid rgba(139, 92, 246, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 40 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              Fair Value Gap (FVG) & Imbalance Blueprint
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Step-by-step methodology for identifying unmitigated FVGs across 1H and 15M execution timeframes.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_Fair_Value_Gap_Blueprint.pdf', 'Fair Value Gap (FVG) & Imbalance Blueprint')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+        <!-- PDF Card 6 -->
+        <div class="pdf-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="pwa-badge" style="background: rgba(236, 72, 153, 0.2); color: #F472B6; border: 1px solid rgba(236, 72, 153, 0.3);">INSTITUTIONAL PDF</span>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">$3.86 &bull; 52 Pages</span>
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-dark); margin: 0 0 8px 0;">
+              Multi-Timeframe Market Structure Shift (MSS) Playbook
+            </h4>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0;">
+              Zero repainting closed-candle rules for detecting MSS structural breaks and high-grade signal entries.
+            </p>
+          </div>
+          <button class="btn-download-pdf" onclick="downloadPdf('ArcadeFX_Multi_Timeframe_MSS_Playbook.pdf', 'Multi-Timeframe Market Structure Shift (MSS) Playbook')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span>Download PDF Guide ($3.86)</span>
+          </button>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+  <script>
+    // PDF Downloader function
+    window.downloadPdf = function(filename, title) {
+      const pdfContent = `%PDF-1.4
+1 0 obj
+<< /Title (${title}) /Author (Arcade FX Institutional Quantitative Desk) /Subject (Institutional Forex Masterclass) >>
+endobj
+2 0 obj
+<< /Type /Catalog /Pages 3 0 R >>
+endobj
+3 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 612 792] /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 200 >>
+stream
+BT
+/F1 24 Tf
+50 720 Td
+(${title}) Tj
+/F1 12 Tf
+0 -30 Td
+(Arcade FX Institutional Trading Intelligence & 5AM CRT Masterclass Series) Tj
+0 -20 Td
+(Official Educational Resource Guide - Verified Non-Repainting System) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000125 00000 n 
+0000000174 00000 n 
+0000000231 00000 n 
+0000000318 00000 n 
+trailer
+<< /Size 6 /Root 2 0 R >>
+startxref
+570
+%%EOF`;
+
+      const blob = new Blob([pdfContent], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load saved Google Meet session link from Admin Manager
+      const savedLink = localStorage.getItem('arcadefx_google_meet_link') || 'https://meet.google.com/abc-defg-hij';
+      const savedTopic = localStorage.getItem('arcadefx_google_meet_topic') || 'Institutional SMC & 5AM CRT Live Execution Masterclass';
+
+      const linkBtn = document.getElementById('activeMeetLinkBtn');
+      const codeDisplay = document.getElementById('meetCodeDisplay');
+      const topicEl = document.getElementById('currentClassTopic');
+
+      if (linkBtn) linkBtn.href = savedLink;
+      if (codeDisplay) codeDisplay.innerText = savedLink.replace('https://', '');
+      if (topicEl && savedTopic) topicEl.innerText = savedTopic;
+
+      // Copy link button handler
+      const copyBtn = document.getElementById('copyMeetLinkBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const currentUrl = linkBtn ? linkBtn.href : 'https://meet.google.com/abc-defg-hij';
+          navigator.clipboard.writeText(currentUrl).then(() => {
+            copyBtn.innerText = '✓ Link Copied!';
+            setTimeout(() => { copyBtn.innerText = '📋 Copy Meeting Link'; }, 2000);
+          });
+        });
+      }
+    });
+  </script>
+
+  <!-- PAYHERO SUBSCRIPTION MODAL ($49/MONTH) -->
+  <div id="payheroSubModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card" style="max-width: 520px;">
+      <div class="arcadefx-modal-header">
+        <h3><span>⚡</span> ArcadeFX Professional Trading Intelligence</h3>
+        <button id="payheroSubModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body">
+        <div style="text-align: center; margin-bottom: 18px;">
+          <span class="pwa-badge" style="background: rgba(37, 99, 235, 0.2); color: #60A5FA; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11px; font-weight: 800;">
+            PRO TRADING INTELLIGENCE &bull; $49 / MONTH
+          </span>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            Unlimited access to real-time SMC signals, entry/SL/TP parameters, 5AM CRT sweeps, and market intelligence scores.
+          </p>
+        </div>
+
+        <!-- 2 Payment Method Cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+          <!-- Card 1: M-Pesa -->
+          <div id="payMethodMpesaCard" class="pdf-card active" style="padding: 14px; cursor: pointer; border: 2px solid #2563EB; background: rgba(37, 99, 235, 0.12); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">📲 M-PESA</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #10B981;">STK PUSH</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Pay securely using M-Pesa STK Push.</div>
+          </div>
+
+          <!-- Card 2: Card -->
+          <div id="payMethodCardPaymentCard" class="pdf-card" style="padding: 14px; cursor: pointer; border: 1px solid var(--border-card); background: var(--bg-card); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">💳 CARD PAYMENT</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #60A5FA;">VISA / MC</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Secure card payment via PayHero.</div>
+          </div>
+        </div>
+
+        <div id="payheroErrBox" class="arcadefx-error-box" style="display: none;"></div>
+        <div id="payheroStatusBox" class="arcadefx-status-box" style="display: none;">
+          <div id="payheroStatusMsg"></div>
+        </div>
+
+        <!-- M-Pesa Form View -->
+        <form id="payheroSubForm">
+          <input type="hidden" id="payheroPlanSelect" value="pro">
+          <div class="arcadefx-form-group">
+            <label for="payheroPhoneInput">M-PESA Phone Number</label>
+            <input id="payheroPhoneInput" type="tel" class="arcadefx-input" placeholder="0712345678 or 254712345678" required>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              An STK Push prompt will be sent directly to your phone.
+            </div>
+          </div>
+
+          <button id="btnSubmitPayheroSub" type="submit" class="arcadefx-btn-primary">
+            <span>Pay with M-PESA STK Push ($49)</span> <span>→</span>
+          </button>
+        </form>
+
+        <!-- Card Payment Form View -->
+        <form id="payheroCardForm" style="display: none;">
+          <div style="background: var(--bg-app); border: 1px solid var(--border-card); border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            🔒 <strong>PCI-DSS Compliant Payment Gateway</strong><br>
+            You will be redirected to the PayHero Card Checkout portal to complete your $49/month subscription using Visa or Mastercard.
+          </div>
+
+          <button id="btnSubmitPayheroCard" type="submit" class="arcadefx-btn-primary" style="background: linear-gradient(135deg, #1A73E8 0%, #1557B0 100%);">
+            <span>Pay $49 with Card</span> <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

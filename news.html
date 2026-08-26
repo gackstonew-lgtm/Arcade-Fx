@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Arcade FX — Economic News Calendar | In Partnership with Affiniti Group Kenya</title><link rel="stylesheet" href="css/styles.css"></head>
+<body>
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+        <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item active" data-page="news" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="workspace-container"><section class="card news-workspace"><div class="news-toolbar"><div><div class="card-title">ECONOMIC CALENDAR</div><p id="newsSourceState" class="card-subheading">Loading verified calendar events…</p></div><div class="news-filters"><select id="newsImpactFilter" aria-label="Filter by impact"><option value="">All impact</option><option value="High">High impact</option><option value="Medium">Medium impact</option><option value="Low">Low impact</option></select><input id="newsCurrencyFilter" aria-label="Filter by currency" maxlength="3" placeholder="Currency"></div></div><div id="newsContent" class="news-loading" aria-live="polite">Loading economic calendar…</div></section><section class="card news-disclosure"><div class="card-title">FOREX NEWS</div><p>ForexFactory calendar events are shown when the source is available. This integration does not reproduce third-party articles or invent headlines; use the source link for current news.</p><a href="https://www.forexfactory.com/news" target="_blank" rel="noopener noreferrer" class="btn-header-action">Open ForexFactory News ↗</a></section></main></div>
+  <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="index.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zm0 10h8v8h-8v-8zM3 13h8v8H3v-8z"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="signals.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      <span>Signals</span>
+    </a>
+    <a href="markets.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+      <span>Market</span>
+    </a>
+    <a href="news.html" class="mobile-nav-item active" aria-current="page">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 4h16v2H4zm0 4h16v6H4zm8 1a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <span>News</span>
+    </a>
+    <a href="index.html?page=settings" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+
+  <script type="module" src="src/news.js"></script>
+</body></html>

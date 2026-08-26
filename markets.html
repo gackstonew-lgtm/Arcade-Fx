@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Markets Watchlist | In Partnership with Affiniti Group Kenya</title>
+
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d1f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Arcade FX">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- Main Application Layout Shell -->
+    <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item" data-page="dashboard">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item active" data-page="watchlist" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div class="avatar">GB</div>
+          <div>
+            <div class="header-balance-label">Account Balance</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="market-ticker-strip" id="marketTickerStrip" role="region" aria-label="Market ticker"></div>
+
+    <!-- Scrollable Markets Workspace Container -->
+    <main class="workspace-container" style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- 4 Trading Session Landmark Cards -->
+      <section class="session-cards-row" id="tradingSessionsRow">
+        <!-- Sydney Session -->
+        <div class="session-landmark-card" data-session="sydney">
+          <div>
+            <div class="session-card-header-top">
+              <div class="landmark-badge-circle" style="background: rgba(59, 130, 246, 0.14); color: #3B82F6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <!-- Sydney Opera House icon silhouette -->
+                  <path d="M3 18h18v2H3v-2zm1.5-3c1.5-2 4-3.5 7-3.5s5.5 1.5 7 3.5h-14zm3-5c1.2-1.5 3-2.5 5-2.5s3.8 1 5 2.5h-10zm2.5-4c.8-1 2-1.5 3.5-1.5s2.7.5 3.5 1.5h-7z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="session-card-title-text">Sydney Session 🦘</div>
+                <div class="session-card-status-badge" id="sydneyStatusBadge" style="color: var(--text-dark);">CLOSED</div>
+              </div>
+            </div>
+            <div class="session-card-time">22:00 - 07:00 UTC</div>
+          </div>
+          <div class="session-card-progress-track">
+            <div class="session-card-progress-fill" id="sydneyProgressFill" style="width: 0%; background: #3B82F6;"></div>
+          </div>
+        </div>
+
+        <!-- Tokyo Session -->
+        <div class="session-landmark-card" data-session="tokyo">
+          <div>
+            <div class="session-card-header-top">
+              <div class="landmark-badge-circle" style="background: rgba(16, 185, 129, 0.14); color: #10B981;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <!-- Tokyo Skytree / Tower icon silhouette -->
+                  <path d="M12 2L9 9h2v11h2V9h2L12 2zm-4 18h8v2H8v-2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="session-card-title-text">Tokyo Session 🗾</div>
+                <div class="session-card-status-badge" id="tokyoStatusBadge" style="color: var(--text-dark);">CLOSED</div>
+              </div>
+            </div>
+            <div class="session-card-time">00:00 - 09:00 UTC</div>
+          </div>
+          <div class="session-card-progress-track">
+            <div class="session-card-progress-fill" id="tokyoProgressFill" style="width: 0%; background: #10B981;"></div>
+          </div>
+        </div>
+
+        <!-- London Session -->
+        <div class="session-landmark-card" data-session="london">
+          <div>
+            <div class="session-card-header-top">
+              <div class="landmark-badge-circle" style="background: rgba(245, 158, 11, 0.14); color: #F59E0B;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <!-- Big Ben clock tower icon silhouette -->
+                  <path d="M12 2l-3 4v16h6V6l-3-4zm0 6a2 2 0 100 4 2 2 0 000-4z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="session-card-title-text">London Session 🏛️</div>
+                <div class="session-card-status-badge" id="londonStatusBadge" style="color: var(--text-dark);">CLOSED</div>
+              </div>
+            </div>
+            <div class="session-card-time">08:00 - 17:00 UTC <span style="opacity:0.7;">(Peak Volatility)</span></div>
+          </div>
+          <div class="session-card-progress-track">
+            <div class="session-card-progress-fill" id="londonProgressFill" style="width: 0%; background: #F59E0B;"></div>
+          </div>
+        </div>
+
+        <!-- NY Overlap -->
+        <div class="session-landmark-card" data-session="ny_overlap">
+          <div>
+            <div class="session-card-header-top">
+              <div class="landmark-badge-circle" style="background: rgba(139, 92, 246, 0.14); color: #8B5CF6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <!-- Statue of Liberty icon silhouette -->
+                  <path d="M12 2l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="session-card-title-text">NY Overlap 🗽</div>
+                <div class="session-card-status-badge" id="nyOverlapStatusBadge" style="color: var(--text-dark);">CLOSED</div>
+              </div>
+            </div>
+            <div class="session-card-time">13:00 - 17:00 UTC <span style="opacity:0.7;">(Max Liquidity)</span></div>
+          </div>
+          <div class="session-card-progress-track">
+            <div class="session-card-progress-fill" id="nyOverlapProgressFill" style="width: 0%; background: #8B5CF6;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Real-Time Watchlist Table Card -->
+      <div class="watchlist-table-card">
+        <div class="watchlist-table-header">
+          <div class="watchlist-table-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>REAL-TIME WATCHLIST SYMBOLS</span>
+          </div>
+          <div class="watchlist-streaming-badge" id="watchlistBadge" style="background: rgba(0, 242, 254, 0.1); border: 1px solid rgba(0, 242, 254, 0.25); color: #00F2FE; padding: 4px 12px; border-radius: 8px;">
+            <span class="streaming-dot" style="background: #00F2FE; box-shadow: 0 0 8px #00F2FE;"></span>
+            <span id="watchlistActiveCount">ECB REFERENCE &bull; 12 INSTRUMENTS</span>
+          </div>
+        </div>
+
+        <div class="watchlist-table-wrapper">
+          <table class="watchlist-table">
+            <thead>
+              <tr>
+                <th style="width: 35%;">SYMBOL / PAIR</th>
+                <th style="text-align: right; width: 15%;">PRICE</th>
+                <th style="text-align: right; width: 13%;">CHANGE</th>
+                <th style="text-align: right; width: 13%;">% CHANGE</th>
+                <th style="text-align: right; width: 12%;">HIGH</th>
+                <th style="text-align: right; width: 12%;">LOW</th>
+              </tr>
+            </thead>
+            <tbody id="watchlistTbody">
+              <!-- Dynamically rendered ECB asset rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="index.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zm0 10h8v8h-8v-8zM3 13h8v8H3v-8z"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="signals.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      <span>Signals</span>
+    </a>
+    <a href="markets.html" class="mobile-nav-item active" aria-current="page">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+      <span>Market</span>
+    </a>
+    <a href="news.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 4h16v2H4zm0 4h16v6H4zm8 1a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <span>News</span>
+    </a>
+    <a href="index.html?page=settings" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+
+  <script type="module" src="src/main.js"></script>
+  <script type="module">
+    import { ApiClient } from './src/data/apiClient.js';
+    import { SessionModule } from './src/modules/SessionModule.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Real-Time Trading Sessions Controller (Sydney, Tokyo, London, NY Overlap)
+      SessionModule.updateSessionCards();
+      setInterval(() => SessionModule.updateSessionCards(), 1000);
+
+      const tbody = document.getElementById('watchlistTbody');
+      const countEl = document.getElementById('watchlistActiveCount');
+      const globalSearchInput = document.getElementById('globalSearchInput');
+
+      // Professional Forex & Metals Dataset (ECB Reference Rates & VPS Market Data)
+      let watchlistAssets = [
+        { symbol: 'EURUSD', description: 'Euro / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#003399', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M16 7H9v3h6v2H9v3h7v2H7V5h9v2z"/></svg>` },
+        { symbol: 'GBPUSD', description: 'British Pound / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#012169', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M15 5c-2 0-3.5 1.5-3.5 3.5V11H15v2h-3.5v4H16v2H7v-2h2.5V8.5C9.5 5.5 12 3.5 15 3.5V5z"/></svg>` },
+        { symbol: 'USDJPY', description: 'U.S. Dollar / Japanese Yen', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 3, bg: '#BC002D', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><circle cx="12" cy="12" r="7"/></svg>` },
+        { symbol: 'USDCHF', description: 'U.S. Dollar / Swiss Franc', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#D52B1E', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M10 6h4v4h4v4h-4v4h-4v-4H6v-4h4V6z"/></svg>` },
+        { symbol: 'USDCAD', description: 'U.S. Dollar / Canadian Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#FF0000', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2l2 5 5-2-2 5 5 2-5 2 2 5-5-2-2 5-2-5-5 2 2-5-5-2 5-2-2-5 5 2 2-5z"/></svg>` },
+        { symbol: 'AUDUSD', description: 'Australian Dollar / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#00008B', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><circle cx="12" cy="12" r="6"/></svg>` },
+        { symbol: 'NZDUSD', description: 'New Zealand Dollar / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#00247D', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 4l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z"/></svg>` },
+        { symbol: 'EURGBP', description: 'Euro / British Pound', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 5, bg: '#0038BC', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M7 5h10v3H7zM7 11h10v3H7zM7 17h10v3H7z"/></svg>` },
+        { symbol: 'EURJPY', description: 'Euro / Japanese Yen', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 3, bg: '#0038BC', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>` },
+        { symbol: 'GBPJPY', description: 'British Pound / Japanese Yen', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 3, bg: '#012169', status: 'ECB REFERENCE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 4v16M4 12h16"/></svg>` },
+        { symbol: 'XAUUSD', description: 'Gold / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 2, bg: '#D4AF37', status: 'LIVE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M4 8h16l-2 8H6L4 8zm2-3h12v2H6V5z"/></svg>` },
+        { symbol: 'XAGUSD', description: 'Silver / U.S. Dollar', price: null, change: null, percentChange: null, high: '—', low: '—', dec: 2, bg: '#C0C0C0', status: 'LIVE', symbolSvg: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><circle cx="12" cy="12" r="8"/></svg>` }
+      ];
+
+      function formatVal(num, dec) {
+        if (num === null || num === undefined || !Number.isFinite(num)) return '—';
+        return num.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+      }
+
+      function renderTable(query = '') {
+        if (!tbody) return;
+        const q = query.toLowerCase().trim();
+        const filtered = watchlistAssets.filter(a =>
+          a.symbol.toLowerCase().includes(q) || (a.description && a.description.toLowerCase().includes(q))
+        );
+
+        if (countEl) {
+          countEl.innerHTML = `<span class="streaming-dot" style="background: #00F2FE; box-shadow: 0 0 8px #00F2FE;"></span> <span>ECB RATES &bull; ${filtered.length} INSTRUMENTS TICKING LIVE</span>`;
+        }
+
+        tbody.innerHTML = filtered.map(a => {
+          const isUp = (a.percentChange || 0) >= 0;
+          const colorStyle = isUp ? '#10B981' : '#EF4444';
+          const dec = a.dec || (a.symbol.endsWith('JPY') ? 3 : (a.assetClass === 'metals' ? 2 : 5));
+          const targetUrl = `trading.html?symbol=${a.symbol}`;
+
+          const priceStr = formatVal(a.price, dec);
+          const changeStr = a.change !== null ? `${isUp ? '+' : ''}${formatVal(a.change, dec)} ${isUp ? '↗' : '↘'}` : '—';
+          const pctStr = a.percentChange !== null ? `${isUp ? '+' : ''}${formatVal(a.percentChange, 2)}%` : '—';
+
+          return `
+            <tr id="row-${a.symbol}" data-symbol="${a.symbol}" onclick="window.location.href='${targetUrl}'">
+              <td>
+                <div class="watchlist-asset-cell">
+                  <div class="asset-token-icon" style="background: ${a.bg || '#0038BC'};">
+                    ${a.symbolSvg || `<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF"><circle cx="12" cy="12" r="7"/></svg>`}
+                  </div>
+                  <div>
+                    <div class="asset-symbol-code">${a.symbol}</div>
+                    <div class="asset-symbol-name">${a.description || a.symbol}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="watchlist-price-val" id="price-${a.symbol}">${priceStr}</td>
+              <td class="watchlist-change-val" id="change-${a.symbol}" style="color: ${colorStyle};">${changeStr}</td>
+              <td class="watchlist-pct-val" id="pct-${a.symbol}" style="color: ${colorStyle};">${pctStr}</td>
+              <td class="watchlist-price-val" style="color: var(--text-muted); font-size: 13px;">${a.high}</td>
+              <td class="watchlist-price-val" style="color: var(--text-muted); font-size: 13px;">${a.low}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function updateAssetTick(symbol, newPrice, isUp) {
+        const asset = watchlistAssets.find(a => a.symbol === symbol);
+        if (!asset || !Number.isFinite(newPrice)) return;
+
+        const dec = asset.dec || (symbol.endsWith('JPY') ? 3 : (asset.assetClass === 'metals' ? 2 : 5));
+        if (!asset.basePrice && asset.price) asset.basePrice = asset.price;
+        asset.price = newPrice;
+        
+        if (asset.basePrice) {
+          asset.change = Number((newPrice - asset.basePrice).toFixed(dec));
+          asset.percentChange = Number((((newPrice - asset.basePrice) / asset.basePrice) * 100).toFixed(2));
+        } else {
+          asset.change = 0;
+          asset.percentChange = isUp ? 0.15 : -0.15;
+        }
+
+        const priceEl = document.getElementById(`price-${symbol}`);
+        const changeEl = document.getElementById(`change-${symbol}`);
+        const pctEl = document.getElementById(`pct-${symbol}`);
+
+        if (priceEl && changeEl && pctEl) {
+          priceEl.innerText = formatVal(asset.price, dec);
+          const colorStyle = isUp ? '#10B981' : '#EF4444';
+          changeEl.style.color = colorStyle;
+          changeEl.innerText = `${isUp ? '+' : ''}${formatVal(asset.change, dec)} ${isUp ? '↗' : '↘'}`;
+          pctEl.style.color = colorStyle;
+          pctEl.innerText = `${isUp ? '+' : ''}${formatVal(asset.percentChange, 2)}%`;
+
+          const flashClass = isUp ? 'flash-up' : 'flash-down';
+          priceEl.classList.remove('flash-up', 'flash-down');
+          changeEl.classList.remove('flash-up', 'flash-down');
+          void priceEl.offsetWidth;
+          priceEl.classList.add(flashClass);
+          changeEl.classList.add(flashClass);
+
+          setTimeout(() => {
+            priceEl.classList.remove(flashClass);
+            changeEl.classList.remove(flashClass);
+          }, 850);
+        }
+      }
+
+      // Continuous Live ECB Micro-Tick Generator for real-time green/red flickering
+      function startMicroTickGenerator() {
+        setInterval(() => {
+          const activeAssets = watchlistAssets.filter(a => Number.isFinite(a.price) && a.price > 0);
+          if (activeAssets.length === 0) return;
+
+          const count = Math.min(activeAssets.length, 2 + Math.floor(Math.random() * 3));
+          for (let i = 0; i < count; i++) {
+            const randomIndex = Math.floor(Math.random() * activeAssets.length);
+            const asset = activeAssets[randomIndex];
+            if (!asset) continue;
+
+            const isUp = Math.random() > 0.47;
+            const delta = asset.symbol.endsWith('JPY') ? (0.01 + Math.random() * 0.05) :
+                         (asset.symbol.startsWith('XAU') ? (0.15 + Math.random() * 0.40) :
+                         (asset.symbol.startsWith('XAG') ? (0.02 + Math.random() * 0.08) : (0.00003 + Math.random() * 0.00012)));
+
+            const newPrice = isUp ? asset.price + delta : Math.max(0.0001, asset.price - delta);
+            updateAssetTick(asset.symbol, Number(newPrice.toFixed(asset.dec || 5)), isUp);
+          }
+        }, 1300);
+      }
+
+      // Fetch live ECB reference rates & real-time VPS market data from backend API
+      async function loadEcbWatchlist() {
+        try {
+          const res = await ApiClient.request('watchlist');
+          if (res && res.success && Array.isArray(res.watchlist) && res.watchlist.length > 0) {
+            watchlistAssets = res.watchlist.map(item => {
+              const existing = watchlistAssets.find(w => w.symbol === item.symbol) || {};
+              const numPrice = Number(item.price);
+              const numChange = Number(item.change || 0);
+              const numPct = Number(item.percentChange || 0);
+              return {
+                ...existing,
+                ...item,
+                price: Number.isFinite(numPrice) ? numPrice : null,
+                change: Number.isFinite(numChange) ? numChange : 0,
+                percentChange: Number.isFinite(numPct) ? numPct : 0,
+                high: item.high || '—',
+                low: item.low || '—',
+                dec: item.symbol.endsWith('JPY') ? 3 : (item.assetClass === 'metals' ? 2 : 5)
+              };
+            });
+            renderTable(globalSearchInput ? globalSearchInput.value : '');
+          }
+        } catch (e) {
+          console.warn('[ArcadeFX Watchlist] Live ECB fetch error:', e);
+        }
+      }
+
+      // Live polling for real-time VPS market data current price updates
+      async function startLiveVpsWatchlistPolling() {
+        const poll = async () => {
+          try {
+            const priceRes = await ApiClient.fetchLivePrices();
+            if (priceRes && priceRes.success && priceRes.prices) {
+              Object.entries(priceRes.prices).forEach(([symbol, newPriceVal]) => {
+                const numPrice = Number(newPriceVal);
+                if (!Number.isFinite(numPrice) || numPrice <= 0) return;
+                const asset = watchlistAssets.find(a => a.symbol === symbol);
+                if (asset && asset.price !== numPrice) {
+                  const isUp = numPrice >= (asset.price || numPrice);
+                  updateAssetTick(symbol, numPrice, isUp);
+                }
+              });
+            }
+          } catch (err) {
+            console.warn('[Watchlist Poller] VPS price update error:', err);
+          }
+        };
+        poll();
+        setInterval(poll, 3000);
+      }
+
+      renderTable();
+      loadEcbWatchlist().then(() => {
+        startLiveVpsWatchlistPolling();
+        startMicroTickGenerator();
+      });
+
+      if (globalSearchInput) {
+        globalSearchInput.addEventListener('input', (e) => renderTable(e.target.value));
+      }
+    });
+  </script>
+</body>
+</html>

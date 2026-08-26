@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade FX — Professional Trading Terminal | In Partnership with Affiniti Group Kenya</title>
+  
+  <!-- Root Landing Redirect Script (Landing Page is First Page on Site URL) -->
+  <script>
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var page = params.get('page');
+        var session = localStorage.getItem('arcade_user_session');
+        var isAuthenticated = false;
+        if (session) {
+          var parsed = JSON.parse(session);
+          if (parsed.user || parsed.access_token) isAuthenticated = true;
+        }
+
+        if (!page && !isAuthenticated && !window.location.hash) {
+          window.location.replace('landing.html');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <!-- Early Theme Initialization Script (Prevents FOUC Theme Flash) -->
+  <script>
+    (function() {
+      try {
+        var stored = localStorage.getItem('arcadefx_user_settings');
+        var theme = 'system';
+        if (stored) {
+          var parsed = JSON.parse(stored);
+          theme = parsed.theme || 'system';
+        }
+        if (theme === 'system') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <!-- Inject Server-Side PHP & Supabase Runtime Configuration -->
+  <script>
+    window.ARCADEFX_PHP_CONFIG = {
+      "backend": "JS/Netlify",
+      "version": "8.2.0",
+      "dbConnected": true,
+      "dbDriver": "sqlite",
+      "symbolCount": 12,
+      "serverTime": "2026-08-22T16:56:36.358Z",
+      "apiBaseUrl": "/api"
+    };
+    window.ARCADEFX_CONFIG = {
+      supabaseUrl: "https://ykkzfnrndlatvpfsnurk.supabase.co",
+      supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlra3pmbnJuZGxhdHZwZnNudXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NTMzNzUsImV4cCI6MjEwMjUyOTM3NX0.DPp9s3o1MQtGoVC52GR-woEJszvvRlQntz-6j7usBJw",
+      apiBaseUrl: "./api"
+    };
+  </script>
+
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Arcade FX">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css?v=20260815-ui2">
+
+  <!-- Supabase Official JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Official TradingView Advanced Chart Library Script -->
+  <script id="tv-script-tag" type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- 1. LEFT SIDEBAR (Dark Navy Institutional Navigation) -->
+    <aside id="sidebarNav" class="sidebar">
+    <div>
+      <div class="sidebar-logo-brand">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="sidebar-logo-img">
+        <div class="sidebar-brand-clock-wrap">
+          <div id="sidebarLiveTime" class="sidebar-live-time" title="Live Market Time">--:--:-- UTC</div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span id="sidebarLiveDate" class="sidebar-live-date">---, --- --</span>
+            <select id="sidebarTzSelect" class="sidebar-tz-select" title="Choose Global Financial Timezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">EST (NY)</option>
+              <option value="Europe/London">GMT (LDN)</option>
+              <option value="Europe/Frankfurt">CET (FRA)</option>
+              <option value="Asia/Tokyo">JST (TYO)</option>
+              <option value="Asia/Singapore">SGT (SIN)</option>
+              <option value="Australia/Sydney">AEST (SYD)</option>
+              <option value="SYSTEM">OS Local</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-collapse-control">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" type="button" aria-label="Collapse sidebar" aria-expanded="true" aria-controls="sidebarNav" title="Collapse sidebar"><span class="sidebar-toggle-icon" aria-hidden="true">‹</span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="sidebar-section-title">MAIN</div>
+        <a href="index.html" class="nav-item active" data-page="dashboard" aria-current="page">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="markets.html" class="nav-item" data-page="watchlist">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></svg>
+          <span>Market Watchlist</span>
+        </a>
+
+        <div class="sidebar-section-title">ANALYTICS</div>
+        <a href="signals.html" class="nav-item" data-page="signals">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Signal Engine</span>
+        </a>
+        <a href="alerts.html" class="nav-item" data-page="alerts">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span>Alerts</span>
+        </a>
+        <a href="news.html" class="nav-item" data-page="news">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h10M7 16h6"/></svg>
+          <span>News</span>
+        </a>
+        <a href="classes.html" class="nav-item" data-page="classes">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Forex Classes</span>
+        </a>
+
+        <div class="sidebar-section-title">TOOLS</div>
+        <a href="trading.html" class="nav-item" data-page="chart">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-4 4"/></svg>
+          <span>Trading Chart</span>
+        </a>
+        <a href="tools.html" class="nav-item" data-page="tools">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span>Trading Tools</span>
+        </a>
+
+        <div class="sidebar-section-title">ACCOUNT</div>
+        <a href="index.html?page=settings" class="nav-item" data-page="settings">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </a>
+        <a href="landing.html" class="nav-item" data-page="logout" id="logoutBtn" style="color: var(--accent-bear);">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN APPLICATION CONTENT AREA -->
+  <div class="main-wrapper">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-leading-controls">
+        <button id="mobileMenuBtn" class="mobile-menu-btn" title="Toggle Navigation Menu" aria-expanded="false" aria-controls="sidebarNav" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="header-title-group">
+          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <h1 style="margin: 0;">Arcade Fx</h1>
+            <span style="font-size: 10px; font-weight: 700; color: #60A5FA; letter-spacing: 0.5px; text-transform: uppercase;">In Partnership with Affiniti Group Kenya</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Global Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input id="globalSearchInput" type="text" placeholder="Search markets, symbols... [Ctrl+K]">
+        </div>
+
+        <!-- Live Market Intelligence Status Badge -->
+        <div class="live-badge" title="Institutional-Grade Real-Time Intelligence Engine Active">
+          <span class="live-dot"></span>
+          <span>MARKET INTELLIGENCE ONLINE</span>
+        </div>
+
+        <!-- Quick Theme Toggle Button -->
+        <button id="headerThemeToggleBtn" class="btn-icon-badge" title="Toggle Light / Dark Workspace Theme" aria-label="Toggle Light / Dark Workspace Theme">
+          <span id="themeToggleIcon">☀️</span>
+        </button>
+
+        <!-- User Profile & Balance -->
+        <div class="user-profile">
+          <div>
+            <div class="header-balance-label" style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; text-align: right;">ACCOUNT BALANCE</div>
+            <div class="header-balance-val tabular-nums" id="headerBalanceDisplay" style="font-size: 16px; font-weight: 800; text-align: right;">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="market-ticker-strip" id="marketTickerStrip" role="region" aria-label="Market ticker"></div>
+
+    <!-- Scrollable Main Workspace Container (Dashboard View) -->
+    <main id="dashboardWorkspace" class="workspace-container">
+      
+      <!-- Dedicated Mobile Overview Experience (Visible @media (max-width: 768px)) -->
+      <section id="mobileOverviewSection" class="mobile-overview-container">
+        
+        <!-- 1. Market Status Card -->
+        <div class="mobile-market-status-card glass-card">
+          <div class="mobile-status-header">
+            <div class="mobile-status-indicator">
+              <span class="live-pulse-dot"></span>
+              <span class="mobile-status-title">MARKET IS OPEN</span>
+            </div>
+            <span class="mobile-status-badge">LIVE INTELLIGENCE</span>
+          </div>
+          <div class="mobile-status-sub">Live trading opportunities active</div>
+        </div>
+
+        <!-- 2. Market Watchlist -->
+        <div class="mobile-watchlist-section">
+          <div class="mobile-section-header">
+            <h3 class="mobile-section-title">Market Watchlist</h3>
+            <a href="markets.html" class="mobile-see-all-link">See All &rsaquo;</a>
+          </div>
+          <div class="mobile-watchlist-list" id="mobileWatchlistContainer">
+            <div class="mobile-watchlist-row">
+              <div class="mobile-symbol-info">
+                <span class="mobile-symbol-code">XAUUSD</span>
+                <span class="mobile-symbol-name">Gold / US Dollar</span>
+              </div>
+              <div class="mobile-price-info">
+                <span class="mobile-price-val" id="mobile_price_XAUUSD">—</span>
+                <span class="mobile-change-badge pos" id="mobile_change_XAUUSD">—</span>
+              </div>
+            </div>
+            <div class="mobile-watchlist-row">
+              <div class="mobile-symbol-info">
+                <span class="mobile-symbol-code">EURUSD</span>
+                <span class="mobile-symbol-name">Euro / US Dollar</span>
+              </div>
+              <div class="mobile-price-info">
+                <span class="mobile-price-val" id="mobile_price_EURUSD">—</span>
+                <span class="mobile-change-badge pos" id="mobile_change_EURUSD">—</span>
+              </div>
+            </div>
+            <div class="mobile-watchlist-row">
+              <div class="mobile-symbol-info">
+                <span class="mobile-symbol-code">GBPUSD</span>
+                <span class="mobile-symbol-name">British Pound / USD</span>
+              </div>
+              <div class="mobile-price-info">
+                <span class="mobile-price-val" id="mobile_price_GBPUSD">—</span>
+                <span class="mobile-change-badge pos" id="mobile_change_GBPUSD">—</span>
+              </div>
+            </div>
+            <div class="mobile-watchlist-row">
+              <div class="mobile-symbol-info">
+                <span class="mobile-symbol-code">USDJPY</span>
+                <span class="mobile-symbol-name">USD / Japanese Yen</span>
+              </div>
+              <div class="mobile-price-info">
+                <span class="mobile-price-val" id="mobile_price_USDJPY">—</span>
+                <span class="mobile-change-badge neg" id="mobile_change_USDJPY">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Top Signal Engine Setup Card -->
+        <div class="mobile-top-signal-card glass-card">
+          <div class="mobile-card-tag-header">
+            <span class="mobile-card-tag-title">TOP SIGNAL SETUP</span>
+            <span class="signal-badge buy" id="mobile_signal_direction">BUY</span>
+          </div>
+          <div class="mobile-signal-main-info">
+            <div>
+              <div class="mobile-signal-symbol" id="mobile_signal_symbol">-- / --</div>
+              <div class="mobile-signal-score" id="mobile_signal_score">Analyzing Signal Engine&hellip;</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="mobile-signal-rr" id="mobile_signal_rr">-- : -- R:R</div>
+              <div class="mobile-signal-age" id="mobile_signal_age">Live</div>
+            </div>
+          </div>
+          <div class="mobile-signal-stats-grid">
+            <div class="mobile-stat-box">
+              <span class="mobile-stat-lbl">ENTRY</span>
+              <span class="mobile-stat-val entry" id="mobile_signal_entry">&mdash;</span>
+            </div>
+            <div class="mobile-stat-box">
+              <span class="mobile-stat-lbl">STOP LOSS</span>
+              <span class="mobile-stat-val sl" id="mobile_signal_sl">&mdash;</span>
+            </div>
+            <div class="mobile-stat-box">
+              <span class="mobile-stat-lbl">TARGET 1</span>
+              <span class="mobile-stat-val tp" id="mobile_signal_tp1">&mdash;</span>
+            </div>
+            <div class="mobile-stat-box">
+              <span class="mobile-stat-lbl">TARGET 2</span>
+              <span class="mobile-stat-val tp" id="mobile_signal_tp2">&mdash;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Rescan Market CTA Button -->
+        <div class="mobile-rescan-wrapper">
+          <button id="mobileRescanBtn" class="mobile-rescan-btn" type="button">
+            <span class="rescan-icon">↻</span>
+            <span class="rescan-text">Rescan Market</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- Standalone Hero Greeting Card (Matching Reference Image media_1787150218801.png) -->
+      <section class="glass-panel arcade-blue-hero-panel desktop-only-hero" style="margin-bottom: 24px; padding: 32px 36px; border-radius: 20px; background: linear-gradient(135deg, #002BB8 0%, #001E85 100%); box-shadow: 0 10px 30px rgba(0, 43, 184, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <div id="marketOverviewGreeting" style="font-size: 20px; font-weight: 400; color: #FFFFFF;">Good Afternoon,</div>
+            <h2 id="userGreetingNameDisplay" style="margin: 4px 0 8px 0; font-size: 36px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; line-height: 1.2;"><span id="userGreetingName">Trader</span> 👋</h2>
+            <div style="color: #D0E6FD; font-size: 15px; font-weight: 400;">Stay informed. Trade smart. Win consistently.</div>
+          </div>
+
+          <!-- Relocated Deposit & Withdraw Action Buttons -->
+          <div class="hero-wallet-actions" style="display: flex; gap: 14px; align-items: center;">
+            <button class="btn-deposit-trigger" type="button" style="background: #0A9347; color: #ffffff; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(10, 147, 71, 0.4); transition: transform 0.15s ease, background 0.15s ease;">
+              <span style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); display: inline-flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; line-height: 1;">+</span>
+              <span>Deposit</span>
+            </button>
+            <button class="btn-withdraw-trigger" type="button" style="background: #ffffff; color: #0f172a; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(255, 255, 255, 0.3); transition: transform 0.15s ease, background 0.15s ease;">
+              <span style="color: #f59e0b; font-size: 16px; font-weight: 800; line-height: 1;">&lt;&gt;</span>
+              <span>Withdraw</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Row 1: Analytics Glass Cards (3 Cards Layout) -->
+      <section class="analysis-glass-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px;">
+        
+        <!-- Card 1: MI Card -->
+        <div id="market-intelligence" class="glass-card arcade-blue-card" style="padding: 20px; border-radius: 20px;">
+          <div class="arcade-card-header">
+            <span class="arcade-card-title" style="font-size: 12px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.5px;">MARKET INTELLIGENCE</span>
+            <span class="arcade-info-badge" title="High timeframe market sentiment score">ⓘ</span>
+          </div>
+          <div class="strength-gauge" style="text-align: center; margin-top: 12px; position: relative;">
+            <svg viewBox="0 0 100 100" style="width: 130px; height: 130px; transform: rotate(-140deg);">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="8" stroke-dasharray="200" stroke-dashoffset="0"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#00F2FE" stroke-width="8" stroke-dasharray="200" stroke-dashoffset="60" style="transition: all 0.5s;"/>
+            </svg>
+            <div style="margin-top: -75px; font-size: 20px; font-weight: 800; color: #FFFFFF;" id="disp_bgHtfBias">BULLISH</div>
+            <div style="font-size: 11px; color: #D0E6FD; margin-top: 6px;">Market sentiment is bullish</div>
+          </div>
+        </div>
+
+        <!-- Card 2: TOP SIGNAL ENGINE SETUP (Ranked by Highest Pips) -->
+        <div id="top-signal" class="glass-card arcade-blue-card" style="padding: 20px; border-radius: 20px;">
+          <div class="arcade-card-header" style="margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="arcade-card-title" style="font-size: 12px; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px;">TOP SIGNAL ENGINE SETUP</span>
+              <span class="signal-badge buy" id="disp_bestSignalDirection">BUY</span>
+            </div>
+            <span class="arcade-info-badge" title="Highest pip potential setup calculated by 10-factor SMC engine">ⓘ Highest Pips</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+            <div>
+              <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;" id="disp_bestSignalSymbol">-- / --</div>
+              <div style="font-size: 11px; color: #60A5FA; font-weight: 700;" id="disp_bestSignalConfidence">Analyzing Signal Engine&hellip;</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 16px; font-weight: 800; color: #38EF7D;" id="disp_bestSignalPips">+0 PIPS</div>
+              <div style="font-size: 10px; color: #D0E6FD;">Target Gain</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.08); font-size: 11px;">
+            <div><span style="color: #94A3B8;">Entry:</span> <strong style="color: #60A5FA;" id="disp_bestSignalEntry">&mdash;</strong></div>
+            <div><span style="color: #94A3B8;">Stop Loss:</span> <strong style="color: #EF4444;" id="disp_bestSignalSl">&mdash;</strong></div>
+            <div><span style="color: #94A3B8;">Target 1:</span> <strong style="color: #38EF7D;" id="disp_bestSignalTp">&mdash;</strong></div>
+            <div><span style="color: #94A3B8;">Target 2:</span> <strong style="color: #38EF7D;" id="disp_bestSignalTp2">&mdash;</strong></div>
+          </div>
+
+          <div style="margin-top: 10px; font-size: 10px; color: #CBD5E1; display: flex; flex-wrap: wrap; gap: 4px;" id="disp_bestSignalConfluences">
+            <span class="confluence-pill">SMC Confluence</span>
+          </div>
+        </div>
+
+        <!-- Card 3: INSTITUTIONAL MARKET STRUCTURE (Order Blocks, Sweeps, FVGs & AMD State) -->
+        <div class="glass-card arcade-blue-card" style="padding: 20px; border-radius: 20px;">
+          <div class="arcade-card-header" style="margin-bottom: 12px;">
+            <span class="arcade-card-title" style="font-size: 12px; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px;">MARKET STRUCTURE & AMD STATE</span>
+            <span class="arcade-info-badge" title="Live Order Blocks, Liquidity Sweeps, FVGs, and Market Manipulation Phase">ⓘ SMC Structure</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Order Block -->
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: #94A3B8; font-weight: 600;">1H Order Block (OB):</span>
+              <span style="color: #38EF7D; font-weight: 700;" id="disp_obStatus">1.08500 (Bullish Valid)</span>
+            </div>
+
+            <!-- Liquidity Sweeps -->
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: #94A3B8; font-weight: 600;">Liquidity Sweep:</span>
+              <span style="color: #F59E0B; font-weight: 700;" id="disp_liqSweepStatus">Sell-Side SSL Swept</span>
+            </div>
+
+            <!-- Fair Value Gap -->
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: #94A3B8; font-weight: 600;">Fair Value Gap (FVG):</span>
+              <span style="color: #60A5FA; font-weight: 700;" id="disp_fvgRange">1.0872 - 1.0888 (Active)</span>
+            </div>
+
+            <!-- Market Manipulation Phase -->
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: #94A3B8; font-weight: 600;">Manipulation State:</span>
+              <span class="signal-state-tag state-validated" style="background: rgba(37,99,235,0.25); color: #60A5FA; font-weight: 800;" id="disp_amdPhase">MANIPULATION (AMD)</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Hidden DOM IDs container for backward compatibility -->
+      <div id="hidden-legacy-ids" style="display: none;">
+        <span id="disp_accountBalanceVal">$0.00</span>
+        <span id="disp_accountEquityVal">$0.00</span>
+        <span id="disp_riskSizingVal">1.0% ($100)</span>
+        <span id="instName">Euro / US Dollar</span>
+        <span id="instSymbol">EURUSD</span>
+        <span id="marketStatusBadge">MARKET OPEN</span>
+        <span id="instPrice">1.08879</span>
+        <span id="instChange">+0.00008 (+0.01%)</span>
+        <strong id="bidVal">1.08873</strong>
+        <strong id="askVal">1.08885</strong>
+        <svg style="display:none;"><path id="gaugeBiasRing"/><g id="gaugeBiasNeedle"><line/><circle/></g><path id="gaugeSignalsRing"/><g id="gaugeSignalsNeedle"><line/><circle/></g><path id="gaugeScoreRing"/><g id="gaugeScoreNeedle"><line/><circle/></g><path id="gaugeRrRing"/><g id="gaugeRrNeedle"><line/><circle/></g></svg>
+        <span id="cardBiasVal">BULLISH</span>
+        <span id="cardSignalsVal">04 Confirmed</span>
+        <span id="cardScoreVal">85 pts</span>
+        <span id="cardRrVal">1 : 3.2</span>
+        <span id="bgHtfBias">BULLISH</span>
+        <span id="bgLiquidity">Swept PDL</span>
+        <span id="bgStructure">Bullish MSS</span>
+        <span id="bgFvg">Active (2)</span>
+        <span id="bgOb">Valid</span>
+        <span id="bgDxy">-0.85 (Strong)</span>
+        <span id="crtLowVal">1.0830</span>
+        <span id="crtEqVal">1.0850</span>
+        <span id="crtHighVal">1.0870</span>
+        <span id="crtStatusVal">Liquidity Swept</span>
+        <span id="pdlVal">1.0800</span>
+        <span id="dailyEqVal">1.0850</span>
+        <span id="pdhVal">1.0900</span>
+        <span id="weeklyEqVal">1.0875</span>
+        <span id="accountBalanceVal">$10,000.00</span>
+        <span id="accountEquityVal">$10,245.60</span>
+        <span id="floatingPlVal">+$245.60</span>
+        <span id="riskSizingVal">1.0% ($100)</span>
+      </div>
+      <script>
+        function syncDisplayIds() {
+          const map = [
+            'bgHtfBias', 'crtLowVal', 'crtEqVal', 'crtHighVal', 'crtStatusVal',
+            'dailyEqVal', 'weeklyEqVal', 'accountBalanceVal', 'accountEquityVal',
+            'floatingPlVal', 'riskSizingVal'
+          ];
+          map.forEach(id => {
+            const hidden = document.getElementById(id);
+            const disp = document.getElementById('disp_' + id);
+            if (hidden && disp) {
+              const observer = new MutationObserver(mutations => {
+                mutations.forEach(mutation => {
+                  disp.textContent = mutation.target.textContent;
+                });
+              });
+              observer.observe(hidden, { childList: true, characterData: true, subtree: true });
+              // initial sync
+              if (hidden.textContent) disp.textContent = hidden.textContent;
+            }
+          });
+        }
+        document.addEventListener('DOMContentLoaded', syncDisplayIds);
+      </script>
+
+    </main>
+
+    <!-- Additional View Workspaces -->
+    <main id="genericWorkspace" class="workspace-container" style="display: none;"></main>
+
+    <!-- Settings Workspace Container -->
+    <main id="settingsWorkspaceContainer" class="workspace-container" style="display: none;"></main>
+  </div>
+
+  <!-- PWA Installation Instructions Modal -->
+  <div id="pwaModal" class="pwa-modal-overlay">
+    <div class="pwa-modal-card">
+      <button id="pwaModalCloseBtn" class="pwa-modal-close">&times;</button>
+      
+      <div class="pwa-modal-header">
+        <img src="Arcade Fx logo.jpeg" alt="Arcade FX" class="pwa-modal-logo">
+        <div>
+          <h3>Install Arcade FX App</h3>
+          <p>TradingView SMC Trading Terminal on your device</p>
+        </div>
+      </div>
+
+      <!-- Instruction View: iOS / Safari -->
+      <div id="pwaInstIOS" class="pwa-steps-container" style="display: none;">
+        <h4>How to Install on iPhone / iPad (iOS):</h4>
+        <ol class="pwa-steps">
+          <li>Tap the <strong>Share</strong> button <span class="icon-inline">ios_share</span> at the bottom of Safari.</li>
+          <li>Scroll down and select <strong>Add to Home Screen</strong> <span class="icon-inline">➕</span>.</li>
+          <li>Tap <strong>Add</strong> in the top-right corner to launch Arcade FX as an app.</li>
+        </ol>
+      </div>
+
+      <!-- Instruction View: Android / Chrome -->
+      <div id="pwaInstAndroid" class="pwa-steps-container" style="display: none;">
+        <h4>How to Install on Android:</h4>
+        <ol class="pwa-steps">
+          <li>Tap the <strong>Browser Menu</strong> (3 vertical dots) in the top-right corner.</li>
+          <li>Tap <strong>Add to Home Screen</strong> or <strong>Pin to Workspace</strong>.</li>
+          <li>Confirm by clicking <strong>Install</strong>.</li>
+        </ol>
+      </div>
+
+      <!-- Instruction View: Desktop Chrome / Edge / Firefox -->
+      <div id="pwaInstDesktop" class="pwa-steps-container" style="display: none;">
+        <h4>How to Install on Desktop (Windows / Mac):</h4>
+        <ol class="pwa-steps">
+          <li>Click the <strong>Install Icon</strong> <span class="icon-inline">💻</span> in your browser address bar (top right).</li>
+          <li>Or open browser menu (3 dots) &rarr; select <strong>Save and Share</strong> &rarr; <strong>Install Arcade FX...</strong></li>
+          <li>Click <strong>Install</strong> to add Arcade FX to your app launcher & taskbar.</li>
+        </ol>
+      </div>
+
+      <!-- Instruction View: Already Installed -->
+      <div id="pwaInstAlready" class="pwa-steps-container" style="display: none;">
+        <div class="already-installed-box">
+          <span class="check-icon">✓</span>
+          <h4>Arcade FX is Installed!</h4>
+          <p>You are using or have installed Arcade FX as a Progressive Web App.</p>
+        </div>
+      </div>
+
+      <div class="pwa-modal-footer">
+        <span class="pwa-badge">⚡ Live Stream Ready &bull; Instant Launch &bull; Real-Time Intelligence</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION MODAL -->
+  <div id="authModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card">
+      <div class="arcadefx-modal-header">
+        <h3 id="authModalTitle">Sign In to Arcade FX</h3>
+        <button id="authModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="arcadefx-modal-tabs">
+        <button id="authTabLogin" class="arcadefx-tab-btn active" type="button">Log In</button>
+        <button id="authTabSignup" class="arcadefx-tab-btn" type="button">Create Account</button>
+      </div>
+
+      <div class="arcadefx-modal-body">
+        <!-- LOGIN FORM -->
+        <form id="authFormLogin">
+          <div id="authLoginErr" class="arcadefx-error-box" style="display: none;"></div>
+          <div class="arcadefx-form-group">
+            <label for="loginEmail">Email Address</label>
+            <input id="loginEmail" type="email" class="arcadefx-input" placeholder="trader@arcadefx.live" required>
+          </div>
+          <div class="arcadefx-form-group">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" class="arcadefx-input" placeholder="••••••••" required>
+          </div>
+          <div style="text-align: right; margin-bottom: 16px;">
+            <a href="#" id="authLinkForgot" style="font-size: 12px; color: #f59e0b; text-decoration: none;">Forgot Password?</a>
+          </div>
+          <button id="btnLoginSubmit" type="submit" class="arcadefx-btn-primary">
+            <span>Sign In</span> <span>→</span>
+          </button>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="authFormSignup" style="display: none;">
+          <div id="authSignupErr" class="arcadefx-error-box" style="display: none;"></div>
+          <div class="arcadefx-form-group">
+            <label for="signupName">Full Name</label>
+            <input id="signupName" type="text" class="arcadefx-input" placeholder="John Doe" required>
+          </div>
+          <div class="arcadefx-form-group">
+            <label for="signupEmail">Email Address</label>
+            <input id="signupEmail" type="email" class="arcadefx-input" placeholder="trader@arcadefx.live" required>
+          </div>
+          <div class="arcadefx-form-group">
+            <label for="signupPhone">M-Pesa Phone Number</label>
+            <input id="signupPhone" type="tel" class="arcadefx-input" placeholder="254712345678" required>
+          </div>
+          <div class="arcadefx-form-group">
+            <label for="signupPassword">Password</label>
+            <input id="signupPassword" type="password" class="arcadefx-input" placeholder="At least 6 characters" minlength="6" required>
+          </div>
+          <button id="btnSignupSubmit" type="submit" class="arcadefx-btn-primary">
+            <span>Create Account</span> <span>→</span>
+          </button>
+        </form>
+
+        <!-- FORGOT PASSWORD FORM -->
+        <form id="authFormForgot" style="display: none;">
+          <div id="authForgotErr" class="arcadefx-error-box" style="display: none;"></div>
+          <div class="arcadefx-form-group">
+            <label for="forgotEmail">Email Address</label>
+            <input id="forgotEmail" type="email" class="arcadefx-input" placeholder="trader@arcadefx.live" required>
+          </div>
+          <button id="btnForgotSubmit" type="submit" class="arcadefx-btn-primary" style="margin-bottom: 12px;">
+            <span>Send Reset Instructions</span>
+          </button>
+          <div style="text-align: center;">
+            <a href="#" id="authLinkBackLogin" style="font-size: 12px; color: var(--text-muted); text-decoration: none;">&larr; Back to Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL (M-PESA STK PUSH) -->
+  <div id="depositModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card">
+      <div class="arcadefx-modal-header">
+        <h3><span>⚡</span> M-Pesa STK Deposit</h3>
+        <button id="depositModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body">
+        <div id="depositErrBox" class="arcadefx-error-box" style="display: none;"></div>
+        <div id="depositStatusBox" class="arcadefx-status-box" style="display: none;">
+          <div id="depositStatusMsg"></div>
+        </div>
+
+        <form id="depositForm">
+          <div class="arcadefx-form-group">
+            <label for="depositAmountKes">Deposit Amount (KES)</label>
+            <input id="depositAmountKes" type="number" class="arcadefx-input" min="10" step="10" value="1000" required>
+            <div id="depositPreviewUsd" style="font-size: 12px; color: #34d399; font-weight: 600; margin-top: 4px;">
+              $7.75 USD (Rate: 1 USD = 129.00 KES)
+            </div>
+          </div>
+
+          <div class="arcadefx-form-group">
+            <label for="depositPhone">M-Pesa Phone Number</label>
+            <input id="depositPhone" type="tel" class="arcadefx-input" placeholder="254712345678" required>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+              An STK Push prompt will be sent directly to this Safaricom line.
+            </div>
+          </div>
+
+          <button id="btnSubmitDeposit" type="submit" class="arcadefx-btn-primary">
+            <span>Initiate M-Pesa Deposit</span> <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYHERO SUBSCRIPTION MODAL ($49/MONTH) -->
+  <div id="payheroSubModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card" style="max-width: 520px;">
+      <div class="arcadefx-modal-header">
+        <h3><span>⚡</span> ArcadeFX Professional Trading Intelligence</h3>
+        <button id="payheroSubModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body">
+        <div style="text-align: center; margin-bottom: 18px;">
+          <span class="pwa-badge" style="background: rgba(37, 99, 235, 0.2); color: #60A5FA; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11px; font-weight: 800;">
+            PRO TRADING INTELLIGENCE &bull; $49 / MONTH
+          </span>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            Unlimited access to real-time SMC signals, entry/SL/TP parameters, 5AM CRT sweeps, and market intelligence scores.
+          </p>
+        </div>
+
+        <!-- 2 Payment Method Cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+          <!-- Card 1: M-Pesa -->
+          <div id="payMethodMpesaCard" class="pdf-card active" style="padding: 14px; cursor: pointer; border: 2px solid #2563EB; background: rgba(37, 99, 235, 0.12); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">📲 M-PESA</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #10B981;">STK PUSH</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Pay securely using M-Pesa STK Push.</div>
+          </div>
+
+          <!-- Card 2: Card -->
+          <div id="payMethodCardPaymentCard" class="pdf-card" style="padding: 14px; cursor: pointer; border: 1px solid var(--border-card); background: var(--bg-card); border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-dark);">💳 CARD PAYMENT</strong>
+              <span style="font-size: 9px; font-weight: 800; color: #60A5FA;">VISA / MC</span>
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">$49 <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">/ mo</span></div>
+            <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">Secure card payment via PayHero.</div>
+          </div>
+        </div>
+
+        <div id="payheroErrBox" class="arcadefx-error-box" style="display: none;"></div>
+        <div id="payheroStatusBox" class="arcadefx-status-box" style="display: none;">
+          <div id="payheroStatusMsg"></div>
+        </div>
+
+        <!-- M-Pesa Form View -->
+        <form id="payheroSubForm">
+          <input type="hidden" id="payheroPlanSelect" value="pro">
+          <div class="arcadefx-form-group">
+            <label for="payheroPhoneInput">M-PESA Phone Number</label>
+            <input id="payheroPhoneInput" type="tel" class="arcadefx-input" placeholder="0712345678 or 254712345678" required>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              An STK Push prompt will be sent directly to your phone.
+            </div>
+          </div>
+
+          <button id="btnSubmitPayheroSub" type="submit" class="arcadefx-btn-primary">
+            <span>Pay with M-PESA STK Push ($49)</span> <span>→</span>
+          </button>
+        </form>
+
+        <!-- Card Payment Form View -->
+        <form id="payheroCardForm" style="display: none;">
+          <div style="background: var(--bg-app); border: 1px solid var(--border-card); border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            🔒 <strong>PCI-DSS Compliant Payment Gateway</strong><br>
+            You will be redirected to the PayHero Card Checkout portal to complete your $49/month subscription using Visa or Mastercard.
+          </div>
+
+          <button id="btnSubmitPayheroCard" type="submit" class="arcadefx-btn-primary" style="background: linear-gradient(135deg, #1A73E8 0%, #1557B0 100%);">
+            <span>Pay $49 with Card</span> <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- WITHDRAWAL MODAL -->
+  <div id="withdrawalModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card">
+      <div class="arcadefx-modal-header">
+        <h3><span>💸</span> Withdraw to M-Pesa</h3>
+        <button id="wthModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body">
+        <div style="background: rgba(30, 41, 59, 0.6); padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12px; color: var(--text-muted);">Available Balance:</span>
+          <strong id="wthAvailableVal" style="color: #34d399; font-size: 16px;">$0.00 USD</strong>
+        </div>
+
+        <div id="wthErrBox" class="arcadefx-error-box" style="display: none;"></div>
+        <div id="wthStatusBox" class="arcadefx-status-box" style="display: none;"></div>
+
+        <form id="wthForm">
+          <div class="arcadefx-form-group">
+            <label for="wthAmountUsd">Withdrawal Amount ($ USD)</label>
+            <input id="wthAmountUsd" type="number" class="arcadefx-input" min="5" step="0.5" value="10" required>
+            <div id="wthPreviewKes" style="font-size: 12px; color: #fbbf24; font-weight: 600; margin-top: 4px;">
+              ≈ KES 1,290.00 (Rate: 1 USD = 129.00 KES)
+            </div>
+          </div>
+
+          <div class="arcadefx-form-group">
+            <label for="wthPhone">Destination M-Pesa Phone Number</label>
+            <input id="wthPhone" type="tel" class="arcadefx-input" placeholder="254712345678" required>
+          </div>
+
+          <button id="btnSubmitWithdrawal" type="submit" class="arcadefx-btn-primary">
+            <span>Request M-Pesa Payout</span> <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSACTION HISTORY MODAL -->
+  <div id="txHistoryModalBackdrop" class="arcadefx-modal-backdrop">
+    <div class="arcadefx-modal-card" style="max-width: 720px;">
+      <div class="arcadefx-modal-header">
+        <h3><span>📜</span> Financial Transaction Ledger</h3>
+        <button id="txHistoryModalCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <div id="txHistoryLoading" style="text-align: center; padding: 20px; color: var(--text-muted); display: none;">
+          Loading financial history...
+        </div>
+        <div id="txHistoryList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER ACCOUNT DRAWER -->
+  <div id="accountDrawerBackdrop" class="arcadefx-modal-backdrop">
+    <aside class="account-drawer">
+      <div class="arcadefx-modal-header">
+        <h3>Trader Account</h3>
+        <button id="accountDrawerCloseBtn" class="arcadefx-modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="arcadefx-modal-body" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="text-align: center; padding: 16px 0 24px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <div id="drawerUserName" style="font-size: 18px; font-weight: 700; color: #fff;">Trader</div>
+            <div id="drawerUserEmail" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">trader@arcadefx.live</div>
+            <div id="drawerUserStatus" style="font-size: 12px; margin-top: 8px; font-weight: 600;">✓ Verified Account</div>
+          </div>
+
+          <div style="padding: 20px 0; display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: rgba(30,41,59,0.5); padding: 14px; border-radius: 12px;">
+              <div style="font-size: 11px; color: var(--text-muted);">Total Account Balance</div>
+              <div id="drawerWalletBalance" style="font-size: 24px; font-weight: 800; color: #34d399;">$0.00</div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <div style="flex: 1; background: rgba(30,41,59,0.3); padding: 10px; border-radius: 8px;">
+                <div style="font-size: 10px; color: var(--text-muted);">Available</div>
+                <div id="drawerAvailableBalance" style="font-size: 14px; font-weight: 700; color: #fff;">$0.00</div>
+              </div>
+              <div style="flex: 1; background: rgba(30,41,59,0.3); padding: 10px; border-radius: 8px;">
+                <div style="font-size: 10px; color: var(--text-muted);">Locked (Payouts)</div>
+                <div id="drawerLockedBalance" style="font-size: 14px; font-weight: 700; color: #f59e0b;">$0.00</div>
+              </div>
+            </div>
+
+            <div class="wallet-actions-row">
+              <button class="btn-deposit-trigger">+ Deposit (M-Pesa)</button>
+              <button class="btn-withdraw-trigger">- Withdraw</button>
+            </div>
+
+            <button id="virtualDepositTriggerBtn" class="arcadefx-btn-secondary" style="width: 100%; margin-top: 8px; border-color: rgba(59, 130, 246, 0.4); color: #60A5FA;">
+              <span>⚡ Fund Virtual Demo Account</span>
+            </button>
+
+            <button class="btn-transactions-trigger arcadefx-btn-secondary" style="width: 100%; margin-top: 6px;">
+              <span>📜 View Transaction History</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+          <button id="drawerLogoutBtn" onclick="document.getElementById('logoutBtn').click()" class="btn-danger-outline" style="width: 100%;">
+            Sign Out of Arcade FX
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Virtual Demo Funds Deposit Modal -->
+  <div id="virtualDepositModalBackdrop" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 1050; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+    <div class="modal-card" style="background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 18px; width: min(90%, 420px); padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: var(--text-dark);">Deposit Virtual Demo Funds</h3>
+        <button id="closeVirtualModalBtn" style="background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer;">&times;</button>
+      </div>
+
+      <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 12px; font-size: 12px; color: #60A5FA; margin-bottom: 16px; line-height: 1.4;">
+        ⚡ <strong>Simulated Paper Trading Account</strong><br>
+        Fund your virtual demo account for paper trading on <code>trading.html</code>. No real money or payment provider is involved.
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 12px; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 6px;">Select Quick Deposit Preset:</label>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <button type="button" class="btn-secondary preset-deposit-btn" data-val="1000" style="padding: 8px; font-weight: 700; font-size: 13px;">+$1,000</button>
+          <button type="button" class="btn-secondary preset-deposit-btn" data-val="5000" style="padding: 8px; font-weight: 700; font-size: 13px;">+$5,000</button>
+          <button type="button" class="btn-secondary preset-deposit-btn" data-val="10000" style="padding: 8px; font-weight: 700; font-size: 13px;">+$10,000</button>
+        </div>
+      </div>
+
+      <form id="virtualDepositForm">
+        <div style="margin-bottom: 20px;">
+          <label for="virtualDepositInput" style="font-size: 12px; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 6px;">Custom Deposit Amount ($):</label>
+          <input type="number" id="virtualDepositInput" min="1" step="100" value="5000" style="width: 100%; padding: 10px 14px; background: var(--bg-app); border: 1px solid var(--border-card); border-radius: 8px; font-size: 15px; font-weight: 800; color: var(--text-dark); box-sizing: border-box;" required>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 14px; font-weight: 800;">
+          🚀 Confirm Virtual Deposit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FIXED MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="index.html" class="mobile-nav-item active" aria-current="page">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zm0 10h8v8h-8v-8zM3 13h8v8H3v-8z"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="signals.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      <span>Signals</span>
+    </a>
+    <a href="markets.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+      <span>Market</span>
+    </a>
+    <a href="news.html" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 4h16v2H4zm0 4h16v6H4zm8 1a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <span>News</span>
+    </a>
+    <a href="index.html?page=settings" class="mobile-nav-item">
+      <svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+
+  <script type="module" src="src/main.js"></script>
+  <script type="module">
+    import { simulatedTrading } from './src/simulatedTrading.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('virtualDepositModalBackdrop');
+      const triggerBtn = document.getElementById('virtualDepositTriggerBtn');
+      const closeBtn = document.getElementById('closeVirtualModalBtn');
+      const form = document.getElementById('virtualDepositForm');
+      const input = document.getElementById('virtualDepositInput');
+      const presetBtns = document.querySelectorAll('.preset-deposit-btn');
+
+      if (triggerBtn && modal) {
+        triggerBtn.addEventListener('click', () => {
+          modal.style.display = 'flex';
+        });
+      }
+
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.style.display = 'none';
+        });
+      }
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-val');
+          if (input && val) input.value = val;
+        });
+      });
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const amount = parseFloat(input.value);
+          if (amount > 0) {
+            const res = simulatedTrading.depositVirtualFunds(amount);
+            if (res.success) {
+              alert(res.message);
+              if (modal) modal.style.display = 'none';
+            } else {
+              alert(res.error);
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
