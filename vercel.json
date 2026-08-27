@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/admin/:path*", "destination": "/api/admin" },
+    { "source": "/api/signals", "destination": "/api/signals" },
+    { "source": "/api/prices", "destination": "/api/prices" },
+    { "source": "/api/strength", "destination": "/api/strength" },
+    { "source": "/api/health", "destination": "/api/health" },
+    { "source": "/api/payhero-stk", "destination": "/api/payhero-stk" },
+    { "source": "/api/payhero-webhook", "destination": "/api/payhero-webhook" },
+    { "source": "/api/:path*", "destination": "/api/index" },
+    { "source": "/signals", "destination": "/signals.html" },
+    { "source": "/alerts", "destination": "/alerts.html" },
+    { "source": "/news", "destination": "/news.html" },
+    { "source": "/markets", "destination": "/markets.html" },
+    { "source": "/trading", "destination": "/trading.html" },
+    { "source": "/smc", "destination": "/smc.html" },
+    { "source": "/tools", "destination": "/tools.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/", "destination": "/landing.html" }
+  ]
+}
