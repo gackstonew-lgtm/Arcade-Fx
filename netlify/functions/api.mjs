@@ -22,6 +22,8 @@ const methods = {
   settings: 'GET, POST, PUT, OPTIONS',
   'market-data': 'GET, OPTIONS',
   signals: 'GET, POST, OPTIONS',
+  prices: 'GET, OPTIONS',
+  strength: 'GET, OPTIONS',
   watchlist: 'GET, POST, DELETE, OPTIONS',
   drawings: 'GET, POST, OPTIONS',
   alerts: 'GET, POST, DELETE, OPTIONS',
@@ -36,7 +38,9 @@ const methods = {
 let newsCache = { expiresAt: 0, payload: null };
 
 export async function handler(event) {
-  const endpoint = event.path.split('/').pop();
+  const queryRoute = event.queryStringParameters?.route;
+  const pathEndpoint = event.path.split('/').pop();
+  const endpoint = (queryRoute && methods[queryRoute]) ? queryRoute : pathEndpoint;
   const method = event.httpMethod;
 
   if (!methods[endpoint]) {
@@ -258,48 +262,36 @@ const routes = {
     const { userId, email } = await extractUserFromEvent(event);
 
     const entitlement = await checkUserEntitlement(userId, email);
-
-    if (!entitlement.isEntitled) {
-      return response(event, 403, {
-        success: false,
-        error: 'SUBSCRIPTION_REQUIRED',
-        message: entitlement.message || '3-Day Free Trial Expired. Subscription Required.',
-        entitlement
-      });
-    }
-
-    const requestedPair = String(query.pair || query.symbol || '').toUpperCase().trim();
-    const sigEntitlement = entitlement.entitlements?.signals;
-
-    if (requestedPair && sigEntitlement && !sigEntitlement.all) {
-      const allowed = Array.isArray(sigEntitlement.allowedPairs)
-        ? sigEntitlement.allowedPairs.includes(requestedPair)
-        : (requestedPair === 'BTCUSD' || requestedPair === 'EURUSD');
-
-      if (!allowed) {
-        return response(event, 403, {
-          success: false,
-          error: 'SIGNAL_NOT_ALLOWED',
-          message: `Your active plan (${entitlement.planName || 'Essential Signals'}) does not include access to ${requestedPair}. Please upgrade to Professional to unlock all signals.`,
-          requiredPlan: 'professional',
-          entitlement
-        });
-      }
-    }
+    const isEntitled = Boolean(entitlement.isEntitled);
 
     const force = event.httpMethod === 'POST' || query.action === 'rescan' || query.force === '1';
 
-    const data = await fetchBmSignals({ force });
+    const data = await fetchBmSignals({ force, signalAccessLocked: !isEntitled });
 
     let signals = Array.isArray(data.signals) ? data.signals : [];
 
-    // Filter list based on user's authorized signal entitlement
-    if (sigEntitlement && !sigEntitlement.all) {
+    const sigEntitlement = entitlement.entitlements?.signals;
+    if (isEntitled && sigEntitlement && !sigEntitlement.all) {
       const allowedPairs = Array.isArray(sigEntitlement.allowedPairs)
         ? sigEntitlement.allowedPairs
         : ['BTCUSD', 'EURUSD'];
 
-      signals = signals.filter(sig => allowedPairs.includes(String(sig.symbol || '').toUpperCase()));
+      signals = signals.map(sig => {
+        const sym = String(sig.symbol || '').toUpperCase();
+        if (!allowedPairs.includes(sym)) {
+          return {
+            ...sig,
+            setup: null,
+            direction: 'WAIT',
+            entry: null,
+            stopLoss: null,
+            target1: null,
+            target2: null,
+            isLocked: true
+          };
+        }
+        return sig;
+      });
     }
 
     const assetClass = query.assetClass;
@@ -329,9 +321,26 @@ const routes = {
       lastScanStatus: 'just now',
       count: signals.length,
       signals,
+      signal_access: isEntitled ? 'unlocked' : 'locked',
       entitlement,
       marketDataSource: 'Real-Time VPS Signal Engine',
       realTime: true
+    });
+  },
+
+  async prices(event) {
+    const data = await fetchBmPrices();
+    return response(event, 200, {
+      success: true,
+      ...(data || {})
+    });
+  },
+
+  async strength(event) {
+    const data = await fetchBmStrength();
+    return response(event, 200, {
+      success: true,
+      ...(data || {})
     });
   },
 

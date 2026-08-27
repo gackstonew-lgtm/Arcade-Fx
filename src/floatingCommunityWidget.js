@@ -32,8 +32,8 @@ export function initFloatingCommunityWidget() {
        target="_blank"
        rel="noopener noreferrer"
        class="floating-community-btn telegram-btn"
-       aria-label="Join Affiniti Group Kenya Telegram Community"
-       title="Join Affiniti Group Kenya Telegram Community">
+       aria-label="Join (AFFINITI KE) Telegram Community"
+       title="Join (AFFINITI KE) Telegram Community">
       <svg class="community-icon" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .54-1.43.53-.48-.01-1.4-.27-2.09-.49-.84-.27-1.51-.42-1.45-.89.03-.25.38-.51 1.07-.78 4.2-1.83 7.01-3.04 8.42-3.63 4.01-1.67 4.84-1.96 5.39-1.97.12 0 .39.03.57.17.15.12.19.28.21.41-.01.06.01.24 0 .38z"/>
       </svg>

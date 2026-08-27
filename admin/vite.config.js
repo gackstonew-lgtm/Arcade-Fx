@@ -11,9 +11,11 @@ function adminApiDevMiddlewarePlugin() {
         if (pathname.startsWith('/api/') || pathname === '/api') {
           try {
             const isAdmin = pathname.startsWith('/api/admin');
+            const adminPath = '../netlify/functions/admin.mjs';
+            const apiPath = '../netlify/functions/api.mjs';
             const handlerModule = isAdmin
-              ? await import('../netlify/functions/admin.mjs')
-              : await import('../netlify/functions/api.mjs');
+              ? await import(/* @vite-ignore */ adminPath)
+              : await import(/* @vite-ignore */ apiPath);
 
             const fullUrl = new URL(rawUrl, `http://${req.headers.host || 'localhost:5174'}`);
             const queryParams = {};

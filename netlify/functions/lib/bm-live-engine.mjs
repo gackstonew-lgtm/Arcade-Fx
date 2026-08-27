@@ -400,6 +400,7 @@ function normalizeBmSignal(signal) {
 
   return {
     ...signal,
+    setup: (setup && isValidSetup && !signal.isLocked) ? setup : null,
     symbol: code,
     displaySymbol: pair.label || pair.name || code,
     name: pair.label || pair.name || code,
@@ -441,9 +442,9 @@ function normalizeBmSignal(signal) {
   };
 }
 
-export async function fetchBmSignals({ force = false } = {}) {
+export async function fetchBmSignals({ force = false, signalAccessLocked = false } = {}) {
   const raw = await fetchBmEngineRoute('signals', force ? { force: 1 } : {}, {
-    timeoutMs: 35_000
+    timeoutMs: force ? 300_000 : 35_000
   });
 
   const data = deduplicateSignals(raw || { signals: [] });
@@ -455,11 +456,20 @@ export async function fetchBmSignals({ force = false } = {}) {
   // Keep the BM PHP validation/refinement behavior on the Netlify side.
   optimizeAndValidateSignals(data);
 
+  if (signalAccessLocked && Array.isArray(data.signals)) {
+    for (const s of data.signals) {
+      if (s && typeof s === 'object') {
+        s.setup = null;
+      }
+    }
+  }
+
   return {
     ...(data || {}),
     signals: Array.isArray(data?.signals)
       ? data.signals.map(normalizeBmSignal)
       : [],
+    signal_access: signalAccessLocked ? 'locked' : (data?.signal_access || 'unlocked'),
     source: 'Live Market Signal Engine',
     fetchedAt: new Date().toISOString()
   };

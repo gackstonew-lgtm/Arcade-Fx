@@ -10,8 +10,8 @@ export const COMMUNITY_LINKS = {
 
 export const PARTNERSHIP_BRANDING = {
   primaryBrand: 'ARCADE FX',
-  partnerBrand: 'AFFINITI GROUP KENYA',
-  relationship: 'In Partnership with',
-  fullTitle: 'ARCADE FX | In Partnership with Affiniti Group Kenya',
-  headline: 'ARCADE FX — In Partnership with AFFINITI GROUP KENYA'
+  partnerBrand: '(AFFINITI KE)',
+  relationship: '(AFFINITI KE)',
+  fullTitle: 'ARCADE FX | (AFFINITI KE)',
+  headline: 'ARCADE FX — (AFFINITI KE)'
 };

@@ -23,6 +23,12 @@ export class SignalsController {
     this.countdownSeconds = 300;
     this.timerId = null;
 
+    // Explicitly bind methods to prevent context loss
+    this.updateTimestamps = this.updateTimestamps.bind(this);
+    this.fetchLiveSignals = this.fetchLiveSignals.bind(this);
+    this.handleManualRescan = this.handleManualRescan.bind(this);
+    this.applyFiltersAndRender = this.applyFiltersAndRender.bind(this);
+
     this.init();
   }
 
